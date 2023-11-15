@@ -1,48 +1,44 @@
 package com.blanc.recrute.member.controller;
 
+import com.blanc.recrute.common.JsonUtil;
+import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dto.IdCheckDTO;
 import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.member.service.MemberService;
 import com.blanc.recrute.member.service.MemberServiceImpl;
-import com.blanc.recrute.member.util.JsonUtil;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 
 @WebServlet(name = "check-id", value = "/check-id")
 public class IdCheckController extends HttpServlet {
-    private static final MemberService memberService = new MemberServiceImpl();
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+  private final MemberService MEMBER_SERVICE = new MemberServiceImpl();
+  private final Gson GSON = new Gson();
 
-        String parsingJSON = JsonUtil.jsonParsing(request);
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response)
+      throws IOException {
 
-        IdCheckDTO idCheckDTO = new Gson().fromJson(parsingJSON, IdCheckDTO.class);
-        String memberId = idCheckDTO.getMemberId();
+    String parsingJSON = JsonUtil.jsonParsing(request);
 
-        String check = memberService.idCheck(memberId);
+    IdCheckDTO idCheckDTO = GSON.fromJson(parsingJSON, IdCheckDTO.class);
+    String memberId = idCheckDTO.getMemberId();
 
-        InvalidDTO invalidDTO = null;
+    String check = MEMBER_SERVICE.idCheck(memberId);
 
-        switch (check) {
-            case "blank":
-                invalidDTO = new InvalidDTO("blank");
-                break;
-            case "none":
-                invalidDTO = new InvalidDTO("available");
-                break;
-            case "exist":
-                invalidDTO = new InvalidDTO("unavailable");
-                break;
-        }
+    InvalidDTO invalidDTO = switch (check) {
+      case Word.EXIST -> new InvalidDTO(Word.UNAVAILABLE);
+      case Word.NONE -> new InvalidDTO(Word.AVAILABLE);
+      case Word.BLANK -> new InvalidDTO(Word.BLANK);
+      default -> null;
+    };
 
-        String result = new Gson().toJson(invalidDTO);
+    String result = GSON.toJson(invalidDTO);
 
-        JsonUtil.sendJSON(response, result);
-    }
+    JsonUtil.sendJSON(response, result);
+  }
 }

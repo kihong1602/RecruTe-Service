@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+    <insert id="saveMember" parameterType="SignupDto">
+        insert into member (member_id, password, email, name, birth, gender, phone_number)
+            values (#{memberId},#{password},#{name},#{email},#{birth},#{gender},#{phoneNumber})
+    </insert>
+    <select id="selectIdByMemberIdAndPassword" parameterType="SigninDto" resultType="Integer">
+        select id from member
+            where member_id = #{memberId} and password = #{password}
+    </select>
+    <select id="selectCountByMemberId" parameterType="CheckDupDto" resultType="Integer">
+        select count(*) from member
+            where member_id = #{memberId}
+    </select>
+</mapper>

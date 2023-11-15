@@ -1,23 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration
-        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-    <typeAliases>
-        <typeAlias alias="MemberDTO" type="com.blanc.recrute.member.dto.MemberDTO"/>
-    </typeAliases>
-    <environments default="development">
-        <environment id="development">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/recrute"/>
-                <property name="username" value="blanc"/>
-                <property name="password" value="blanc1234"/>
-            </dataSource>
-        </environment>
-    </environments>
-    <mappers>
-        <mapper resource="mapper/member.xml"/>
-    </mappers>
+  <settings>
+    <setting name="lazyLoadingEnabled" value="false"/>
+    <setting name="useGeneratedKeys" value="false"/>
+    <setting name="cacheEnabled" value="true"/>
+    <!--    <setting name="localCacheScope" value="STATEMENT"/>-->
+  </settings>
+  <typeAliases>
+    <typeAlias alias="MemberDTO" type="com.blanc.recrute.member.dto.MemberDTO"/>
+    <typeAlias alias="MemberInfoDTO" type="com.blanc.recrute.member.dto.MemberInfoDTO"/>
+    <typeAlias alias="RecruitDTO" type="com.blanc.recrute.recruitment.dto.RecruitDTO"/>
+    <typeAlias alias="RctDetDTO" type="com.blanc.recrute.recruitment.dto.RctDetDTO"/>
+    <typeAlias alias="ApplyDTO" type="com.blanc.recrute.recruitment.dto.ApplyDTO"/>
+    <typeAlias alias="DetailDTO" type="com.blanc.recrute.recruitment.dto.DetailDTO"/>
+    <typeAlias alias="RecruitInfoDTO" type="com.blanc.recrute.exam.dto.RecruitInfoDTO"/>
+    <typeAlias alias="AptIdDTO" type="com.blanc.recrute.exam.dto.AptIdDTO"/>
+    <typeAlias alias="EmailDTO" type="com.blanc.recrute.exam.dto.EmailDTO"/>
+    <typeAlias alias="ExaminationDTO" type="com.blanc.recrute.exam.dto.ExaminationDTO"/>
+    <typeAlias alias="RecruitIdDTO" type="com.blanc.recrute.exam.dto.RecruitIdDTO"/>
+  </typeAliases>
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/recrute"/>
+        <property name="username" value="blanc"/>
+        <property name="password" value="blanc1234"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <mapper resource="mapper/member.xml"/>
+    <mapper resource="mapper/recruitment.xml"/>
+    <mapper resource="mapper/exam.xml"/>
+  </mappers>
 </configuration>

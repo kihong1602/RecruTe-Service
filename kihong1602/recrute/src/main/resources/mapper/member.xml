@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="member">
-    <insert id="saveMember" parameterType="MemberDTO">
-        insert into member (member_id,password,name,birth,gender,phone_number,email)
-        values (#{memberId},#{password},#{name},#{birth},#{gender},#{phoneNumber},#{email})
-    </insert>
-    <select id="loginCheck" parameterType="MemberDTO" resultType="String">
-        select member_id from member where member_id = #{memberId} and password = #{password}
-    </select>
-    <select id="idCheck" parameterType="MemberDTO" resultType="Integer">
-        select count(*) from member where member_id = #{memberId}
-    </select>
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blanc.recrute.mybatis.MemberMapper">
+  <insert id="saveMember" parameterType="MemberInfoDTO">
+    insert into member (member_id,password,name,birth,gender,phone_number,email)
+    values (#{memberId},#{password},#{name},#{birth},#{gender},#{phoneNumber},#{email})
+  </insert>
+  <select id="duplicateId" parameterType="MemberDTO" resultType="Integer">
+    select count(*) from member where member_id = #{memberId}
+  </select>
+  <select id="findEmailById" parameterType="MemberDTO" resultType="String">
+    select email from member where member_id = #{memberId}
+  </select>
+  <select id="loginCheck" parameterType="MemberDTO" resultType="String">
+    select member_id from member where member_id = #{memberId} and password = #{password}
+  </select>
+  <update id="emailAuth" parameterType="MemberDTO">
+    update member set auth_status = true where email = #{email}
+  </update>
 </mapper>

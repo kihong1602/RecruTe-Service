@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blanc.recrute.mybatis.ExamMapper">
+  <select id="getRecruitTitleByAptId" parameterType="String" resultType="RecruitInfoDTO"
+    useCache="false" flushCache="true">
+    select r.title as title, r.start_date as startDate, r.end_date as endDate
+    from applicant as ap
+    join recruitment as r
+    on ap.recruitment_id = r.id
+    where ap.apt_id = #{aptId}
+  </select>
+  <select id="findRecruitIdByExamId" parameterType="Integer" resultType="Integer" useCache="false"
+    flushCache="true">
+    select recruitment_id from exam where id = #{examId}
+  </select>
+  <select id="getExaminationById" parameterType="Integer" resultType="ExaminationDTO"
+    useCache="false" flushCache="true">
+    select question, answer from exam where recruitment_id = #{recruitId}
+  </select>
+  <select id="getApplicantEmail" parameterType="RecruitIdDTO" resultType="String">
+    SELECT m.email
+    FROM applicant a
+    JOIN member m ON a.member_id = m.id where recruitment_id = #{recruitId};
+  </select>
+</mapper>

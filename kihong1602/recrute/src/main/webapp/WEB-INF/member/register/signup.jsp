@@ -1,11 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: kks45
-  Date: 2023-10-16
-  Time: 오후 12:19
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@include file="../../layout/header.jsp" %>
 <main>
     <section>
@@ -33,9 +26,15 @@
 
                         <p class="mt-4 text-gray-600">
                             회원이 되신 것을 환영합니다. ${requestScope.signUpID}님!<br>
-                            많은 활동 부탁드립니다!
+                            RecruTe의 모든 서비스를 이용하시려면 이메일 인증이 필요합니다!
                         </p>
 
+                        <a
+                                href="javascript:emailConfirm('${requestScope.signUpID}')"
+                                class="mt-8 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
+                        >
+                            이메일 인증
+                        </a>
                         <a
                                 href="<c:url value="/"/>"
                                 class="mt-8 inline-block rounded border border-indigo-600 bg-indigo-600 px-12 py-3 text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
@@ -48,4 +47,5 @@
         </div>
     </section>
 </main>
+<script src="../../../js/emailConfirm.js"></script>
 <%@include file="../../layout/footer.jsp" %>

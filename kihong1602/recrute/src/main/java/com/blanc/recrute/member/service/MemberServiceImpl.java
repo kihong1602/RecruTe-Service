@@ -1,42 +1,61 @@
 package com.blanc.recrute.member.service;
 
+import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dao.MemberDAO;
 import com.blanc.recrute.member.dao.MemberDAOImpl;
 import com.blanc.recrute.member.dto.LoginDTO;
 import com.blanc.recrute.member.dto.MemberDTO;
+import com.blanc.recrute.member.dto.MemberInfoDTO;
 
 public class MemberServiceImpl implements MemberService {
 
-    MemberDAO memberDAO = new MemberDAOImpl();
+  private final MemberDAO MEMBER_DAO = new MemberDAOImpl();
+  private final int NONE = 0;
 
-    @Override
-    public int insertMember(MemberDTO memberDTO) {
-        int result = 0;
-        if (memberDTO != null) {
-            result = memberDAO.insertMember(memberDTO);
-        }
-
-
-        return result;
+  @Override
+  public int insertMember(MemberInfoDTO memberDTO) {
+    int result = 0;
+    if (memberDTO != null) {
+      result = MEMBER_DAO.insertMember(memberDTO);
     }
 
-    @Override
-    public String idCheck(String id) {
+    return result;
+  }
 
-        if (id == null || id.isEmpty()) {
-            return "blank";
-        }
+  @Override
+  public String idCheck(String id) {
 
-        return memberDAO.idCheck(id) <= 0 ? "none" : "exist";
+    if (id == null || id.isEmpty()) {
+      return Word.BLANK;
     }
 
-    @Override
-    public boolean loginCheck(LoginDTO loginDTO) {
+    return MEMBER_DAO.idCheck(id) <= 0 ? Word.NONE : Word.EXIST;
+  }
 
-        MemberDTO memberDTO = new MemberDTO.Builder().memberId(loginDTO.getMemberId()).password(loginDTO.getPassword()).build();
-        String memberId = memberDAO.loginCheck(memberDTO);
+  @Override
+  public boolean loginCheck(LoginDTO loginDTO) {
 
-        return memberId != null;
+    MemberDTO memberDTO = new MemberDTO.Builder().memberId(loginDTO.getMemberId())
+                                                 .password(loginDTO.getPassword()).build();
+    String memberId = MEMBER_DAO.loginCheck(memberDTO);
 
-    }
+    return memberId != null;
+
+  }
+
+  @Override
+  public MemberDTO findEmail(String memberId) {
+
+    String findEmail = MEMBER_DAO.findEmail(new MemberDTO.Builder().memberId(memberId).build());
+
+    return new MemberDTO.Builder().email(findEmail).build();
+  }
+
+  @Override
+  public String authGrantMember(String email) {
+
+    int result = MEMBER_DAO.authGrantMember(new MemberDTO.Builder().email(email).build());
+
+    return result > NONE ? Word.SUCCESS : Word.FAIL;
+  }
 }

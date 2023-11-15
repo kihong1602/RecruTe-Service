@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/java,windows,eclipse,maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,windows,eclipse,maven
 
@@ -140,6 +139,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/java,windows,eclipse,maven
-=======
-/bin/
->>>>>>> d4e5c2af4460b98362e98355ba41f3563939a971

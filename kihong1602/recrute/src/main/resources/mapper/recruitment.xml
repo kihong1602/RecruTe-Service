@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.blanc.recrute.mybatis.RecruitMapper">
+  <select id="findRctDetailById" parameterType="RecruitDTO" resultType="DetailDTO" useCache="false"
+    flushCache="true">
+    SELECT
+    r.id AS recruitId,
+    r.title AS title,
+    r.start_date AS startDate,
+    r.end_date AS endDate,
+    r.salary AS salary,
+    r.location AS location,
+    r.job AS job,
+    r.work_form AS workForm,
+    r.skills AS skills,
+    r.career AS career,
+    c.id AS companyId,
+    c.company_name AS companyName,
+    d.content AS content
+    FROM
+    recruitment r
+    JOIN
+    company c ON r.company_id = c.id
+    JOIN
+    rct_detail d ON r.id = d.recruitment_id
+    WHERE
+    r.id = #{id}
+  </select>
+  <select id="findIdByMemberId" parameterType="String" resultType="Integer" useCache="false"
+    flushCache="true">
+    select id from member where member_id = #{memberId}
+  </select>
+  <insert id="saveApply" parameterType="ApplyDTO">
+    insert into applicant (apt_id,member_id,recruitment_id)
+    values (#{aptId},#{memberId},#{recruitId})
+  </insert>
+</mapper>

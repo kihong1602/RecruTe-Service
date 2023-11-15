@@ -5,22 +5,24 @@ import java.time.LocalDate;
 public class MemberDTO {
     private int id;
     private String memberId;
-    private String name;
-    private String email;
     private String password;
+    private String name;
     private LocalDate birth;
-    private String phoneNumber;
     private int gender;
+    private String phoneNumber;
+    private String email;
+    private int authStatus;
 
-    public MemberDTO(int id, String memberId, String name, String email, String password, LocalDate birth, String phoneNumber, int gender) {
+    public MemberDTO(int id, String memberId, String password, String name, LocalDate birth, int gender, String phoneNumber, String email, int authStatus) {
         this.id = id;
-        this.name = name;
         this.memberId = memberId;
-        this.email = email;
         this.password = password;
+        this.name = name;
         this.birth = birth;
-        this.phoneNumber = phoneNumber;
         this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.authStatus = authStatus;
     }
 
     public MemberDTO(Builder builder) {
@@ -32,6 +34,7 @@ public class MemberDTO {
         birth = builder.birth;
         phoneNumber = builder.phoneNumber;
         gender = builder.gender;
+        authStatus = builder.authStatus;
     }
 
     public int getId() {
@@ -66,6 +69,10 @@ public class MemberDTO {
         return gender;
     }
 
+    public int getAuthStatus() {
+        return authStatus;
+    }
+
     public static class Builder {
         private int id;
         private String memberId;
@@ -75,6 +82,7 @@ public class MemberDTO {
         private String phoneNumber;
         private int gender;
         private String name;
+        private int authStatus;
 
         public Builder() {
         }
@@ -116,6 +124,11 @@ public class MemberDTO {
 
         public Builder gender(int gender) {
             this.gender = gender;
+            return this;
+        }
+
+        public Builder authStatus(int authStatus) {
+            this.authStatus = authStatus;
             return this;
         }
 

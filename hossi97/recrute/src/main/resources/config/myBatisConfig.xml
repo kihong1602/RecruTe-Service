@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="config/db.properties"/>
+    <typeAliases>
+        <typeAlias alias="SignupDto" type="com.hossi.recrute.member.dto.request.SignupDto"/>
+        <typeAlias alias="SigninDto" type="com.hossi.recrute.member.dto.request.SigninDto"/>
+        <typeAlias alias="CheckDupDto" type="com.hossi.recrute.member.dto.request.CheckDupReqDto"/>
+        <typeAlias alias="RecruitmentDto" type="com.hossi.recrute.recruitment.dto.RecruitmentDto"/>
+        <typeAlias alias="ApplicantDto" type="com.hossi.recrute.recruitment.dto.ApplicantDto"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mapper/member.xml"/>
+        <mapper resource="mapper/recruitment.xml"/>
+    </mappers>
+</configuration>
