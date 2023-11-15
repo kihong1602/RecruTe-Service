@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jisun.mybatis"> 
+
+
+	<!-- 수험번호 일치 확인  -->
+	<select id="selectAptIdcheck"
+			parameterType="ExamDto"
+			resultType="int"> 
+	SELECT count(*) as count
+	FROM exam 
+	JOIN recruitment ON exam.recruitment_id = recruitment.id
+	JOIN applicant   ON recruitment.id = applicant.recruitment_id
+	WHERE applicant.apt_id = #{apt_id} AND 
+		  applicant.member_id = #{membertbl_id};
+	</select>
+
+	
+	<!-- 시험문제 가져오기 -->
+	<select id="selectExamQuestion"
+			parameterType="ExamDto"
+			resultType="ExamDto"> 
+	SELECT exam.id as examtbl_id,
+		   exam.question
+	FROM exam 
+	JOIN recruitment ON exam.recruitment_id = recruitment.id
+	JOIN applicant   ON recruitment.id = applicant.recruitment_id
+	WHERE applicant.apt_id = #{apt_id} AND 
+		  applicant.member_id = #{membertbl_id};
+	</select>
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<!-- 수험번호 인증 시 필요한 데이터  -->
+	<select id="selectExamAuth"
+			parameterType="int"
+			resultType="ExamDto"> 
+	SELECT exam.id AS examTbl_id, 
+	   	   applicant.apt_id
+	FROM member JOIN applicant  ON member.id = applicant.member_id
+				JOIN recruitment ON applicant.recruitment_id = recruitment.id
+				JOIN exam ON recruitment.id = exam.recruitment_id
+	WHERE member.id = #{member_id};
+	</select> 
+	
+	
+	
+	
+	<!-- examAuth의 view page list
+	<select id="selectExamIdList"
+			parameterType="ExamDto"
+			resultType="List"> 
+	SELECT exam.id as examtbl_id
+	FROM exam
+	</select>
+	-->
+	
+	<!-- 수험번호 인증 시 필요한 데이터  
+	<select id="selectExamAuth"
+			parameterType="int"
+			resultType="ExamDto"> 
+			
+	SELECT applicant.apt_id as applicantTbl_id, 
+		   exam.id as examTbl_id
+	FROM applicant JOIN exam ON applicant.recruitment_id = exam.recruitment_id
+	WHERE applicant.member_id = #{member_id}
+	
+	</select>
+	-->
+	
+	
+	
+	
+	
+
+
+	
+</mapper>

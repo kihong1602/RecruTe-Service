@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="MemberDto" type="com.juju.member.dto.MemberDto"/>
+        <typeAlias alias="HireDto" type="com.juju.hire.dto.HireDto"/>
+        <typeAlias alias="ApplicantDto" type="com.juju.hire.dto.ApplicantDto"/>
+        <typeAlias alias="ExamDto" type="com.juju.exam.dto.ExamDto"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/recrute"/>
+                <property name="username" value="root"/>
+                <property name="password" value="0612"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com/juju/member/mybatis/member.xml"/>
+        <mapper resource="com/juju/hire/mybatis/hire.xml"/>
+        <mapper resource="com/juju/hire/mybatis/applicant.xml"/>
+        <mapper resource="com/juju/exam/mybatis/exam.xml"/>
+    </mappers>
+</configuration>

@@ -58,7 +58,7 @@ public class ExamService {
 
     long endTime = System.currentTimeMillis();
     long workTime = endTime - startTime;
-    System.out.println("작업시간: " + workTime + "ms");
+    System.out.println("작업시간 : " + workTime + "ms");
   }
 
 

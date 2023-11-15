@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jisun.mybatis"> 
+
+	<insert id="insertApplicant"
+			parameterType="ApplicantDto"> 
+			
+	INSERT INTO applicant (apt_id, member_id, recruitment_id)
+	VALUES (#{apt_id},#{membertbl_id},#{recruitmenttbl_id});
+
+	</insert>
+	
+
+
+			
+
+
+</mapper>

@@ -3,4 +3,33 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
+
+    <filter-mapping>
+        <filter-name>AuthCheckFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>NotAuthRedirectFilter</filter-name>
+        <url-pattern>/member/*</url-pattern>
+        <url-pattern>/signup/complete</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthRedirectFilter</filter-name>
+        <url-pattern>/signup</url-pattern>
+        <url-pattern>/signin</url-pattern>
+        <url-pattern>/signout</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>AuthErrorFilter</filter-name>
+        <url-pattern>/recruitments/apply</url-pattern>
+    </filter-mapping>
+    <!--    <filter-mapping>-->
+    <!--        <filter-name>NotCertifiedFilter</filter-name>-->
+    <!--        <url-pattern></url-pattern>-->
+    <!--    </filter-mapping>-->
+    <filter-mapping>
+        <filter-name>CertifiedRedirectFilter</filter-name>
+        <url-pattern>/signup/complete</url-pattern>
+        <url-pattern>/member/email/*</url-pattern>
+    </filter-mapping>
 </web-app>

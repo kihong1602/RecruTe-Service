@@ -23,10 +23,7 @@
 				class="mb-0 mt-6 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8">
 				<!-- <p class="text-center text-lg font-medium">Sign in to your account</p> -->
 				<div>
-					<label for="text" class="sr-only">Password</label>
-
 					<div class="relative">
-						<input type="hidden" name="examId" value="${examId}">
 						<input type="text" name="aptId"
 							class="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
 							placeholder="ex) RCT12345678"> <span

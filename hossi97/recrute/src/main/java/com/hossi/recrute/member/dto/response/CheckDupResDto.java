@@ -5,4 +5,8 @@ public class CheckDupResDto {
     public CheckDupResDto(Boolean isDup) {
         this.isDup = isDup;
     }
+
+    public Boolean getIsDup() {
+        return isDup;
+    }
 }

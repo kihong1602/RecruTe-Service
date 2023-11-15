@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- <![CDATA[>]]>-->
+<mapper namespace="com.juju.exam.mybatis">
+  	<select id = "selectProblems" resultType="ExamDto" parameterType="String">
+		select * from applicant a, exam e
+		where a.apt_id = #{aptId} and a.recruitment_id = e.recruitment_id
+	</select>	
+</mapper>

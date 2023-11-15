@@ -42,7 +42,7 @@ const isNotEmpty = (id, password) => {
 
 const sendData = (idVal, passwordVal) => {
     const info = {
-        memberId: idVal,
+        username: idVal,
         password: passwordVal
     }
 
@@ -57,19 +57,10 @@ const sendData = (idVal, passwordVal) => {
 
     fetch(window.location.href, msg)
         .then((res) => {
-            console.log(res)
-            console.log(res.redirected)
-            console.log(res.url)
-            if (res.redirected) {
-                window.location.href = res.url
-            } else {
-                return res.json();
-            }
-        }).then((json) => {
-            if (json.code === "USR-04") {
-                alert("아이디와 비밀번호를 다시 확인해주세요.")
-            }
-    })
+            if (res.ok) document.location.href="/"
+            else alert("아이디와 비밀번호를 다시 확인해주세요.")
+        }
+    )
 }
 
 const checkAndSend = (e, id, password) => {

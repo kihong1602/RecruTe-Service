@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+<mapper namespace="com.jisun.mybatis"> 
+
+	<!-- 채용공고 목록 -->
+	<select id="selectCompRecruitList"
+			resultType="CompRecruitDto"> 
+			SELECT company.company_name,
+				   recruitment.id as recruitmenttbl_id,
+				   recruitment.company_id as companytbl_id,
+				   recruitment.title,
+				   recruitment.job,
+				   recruitment.salary
+			FROM recruitment LEFT JOIN company 
+			ON recruitment.company_id = company.id;
+	</select>
+	
+	<!-- 채용공고 뷰 -->
+	<select id="selectCompRecruitView"
+			parameterType="int"
+			resultType="CompRecruitDto"> 
+			SELECT company.company_name,
+				   recruitment.id as recruitmenttbl_id,
+				   recruitment.company_id as companytbl_id,
+				   recruitment.title,
+				   recruitment.start_date,
+				   recruitment.end_date,
+				   recruitment.salary,
+				   recruitment.location,
+				   recruitment.work_form,
+				   recruitment.job,
+				   recruitment.skills,
+				   recruitment.career
+			FROM recruitment LEFT JOIN company 
+			ON recruitment.company_id = company.id
+			where recruitment.id = #{recruitmenttbl_id};
+	</select>
+	
+	
+	<select id="selectCompRecruitTitle"
+			parameterType="int"
+			resultType="String">
+		SELECT recruitment.title
+		FROM recruitment JOIN applicant ON applicant.recruitment_id = recruitment.id
+		WHERE applicant.member_id = #{member_id};
+	</select>
+	
+</mapper>

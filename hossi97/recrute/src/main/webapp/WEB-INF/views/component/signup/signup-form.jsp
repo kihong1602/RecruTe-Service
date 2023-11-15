@@ -22,7 +22,7 @@
                 <div class="relative w-full flex justify-stretch gap-4"><input id="id" name="id" type="text"
                                                                                class="grow rounded-lg border-gray-200 p-4 pe-4 text-sm shadow-sm"
                                                                                placeholder="Enter ID">
-                    <button id="check-btn" type="button" class="rounded-lg border-gray-100 border-2 p-4">ID Check 중복
+                    <button id="check-btn" type="button" class="rounded-lg border-gray-100 border-2 p-4">ID 중복 확인
                     </button>
                 </div>
             </div>

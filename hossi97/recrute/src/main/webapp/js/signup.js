@@ -51,7 +51,7 @@ const registerEvent = (e, id, email, name, gender, password, passwordConfirm, ph
         id.focus()
     } else if (checked.isDup) {
         alert("중복 체크를 진행하세요.")
-        id.focus()
+        checkBtn.focus()
     } else if (checkInputEmpty(email)) {
         alert("이메일을 입력하세요.")
         email.focus()
@@ -97,25 +97,34 @@ const registerEvent = (e, id, email, name, gender, password, passwordConfirm, ph
 }
 
 const checkDuplicate = (id, checked) => {
-    const path = `/signup/check-duplicate?memberId=${id.value}`
-    fetch(path)
-        .then(res => res.json())
-        .then(data => {
-            if (data.isDup) {
-                alert("중복된 아이디입니다.")
-                id.focus();
-            } else {
-                if (!confirm("사용가능한 아이디입니다. 사용하시겠습니까?")) {
-                    alert("취소 되었습니다.");
+    if (checkInputEmpty(id)) {
+        alert("아이디를 입력하세요.")
+        id.focus()
+    } else if (!validateInputValue(id, /^(?=.*[a-zA-Z])(?=.*[0-9]).{1,30}$/)) {
+        alert("아이디 형식이 올바르지 않습니다.")
+        id.focus()
+    } else {
+        const path = `/signup/check-duplicate?username=${id.value}`
+        fetch(path)
+            .then(res => res.json())
+            .then(json => {
+                if (json.data.isDup) {
+                    alert("중복된 아이디입니다.")
+                    id.focus();
                 } else {
-                    checked.isDup = false
-                    id.readOnly = true;
-                    checkBtn.setAttribute("style", "cursor: default;")
-                    checkBtn.removeEventListener("click", checkDupIdEvent)
-                    alert("확인 되었습니다.");
+                    if (!confirm("사용가능한 아이디입니다. 사용하시겠습니까?")) {
+                        alert("취소 되었습니다.");
+                    } else {
+                        checked.isDup = false
+                        id.readOnly = true;
+                        checkBtn.setAttribute("style", "cursor: default;")
+                        checkBtn.removeEventListener("mousedown", checkDupIdEvent)
+                        checkBtn.removeEventListener("click", checkDupIdEvent)
+                        alert("확인 되었습니다.");
+                    }
                 }
-            }
-        });
+            });
+    }
 }
 
 const registerFormSubmitEvent = (id, email, name, gender, password, passwordConfirm, phoneNumber, birth) => {
@@ -123,13 +132,18 @@ const registerFormSubmitEvent = (id, email, name, gender, password, passwordConf
         isDup: true
     }
 
-    checkBtn.addEventListener("click", checkDupIdEvent = () => {
+    checkBtn.addEventListener("mousedown", checkDupIdEvent = () => {
         checkDuplicate(id, checked)
     })
 
     form.addEventListener('keydown', (e) => {
+        console.log("e")
         if (e.code === "Enter") {
-            registerEvent(e, id, email, name, gender, password, passwordConfirm, phoneNumber, birth, checked)
+            if(document.activeElement === checkBtn && checked.isDup) {
+                checkDuplicate(id, checked)
+            } else {
+                registerEvent(e, id, email, name, gender, password, passwordConfirm, phoneNumber, birth, checked)
+            }
         }
     }, true);
 

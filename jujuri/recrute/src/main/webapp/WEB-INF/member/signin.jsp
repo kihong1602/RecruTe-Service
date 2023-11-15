@@ -64,7 +64,6 @@
 
 <script>
 	$("#btnSubmit").on("click", function() {
-		//console.log($("#saveID").val());
 		if ($("#saveID").is(":checked")) {
 			 $("#saveID").val("rememberMe");
 		} else {
@@ -80,16 +79,16 @@
 			},
 			method : "post",
 			success : function(data) {
-				//console.log("success");
 				console.log(data.id);
-				//{pw: '0612', id: 'jujuri'}
 				if (data.id !== null && data.pw !== null) {
-					//sendRedirect("/recrute/signup")
 					location.href = "/recrute/index";
+				}
+				else {
+					alert("Please check your id and password again.");
 				}
 			},
 			error:function() {
-				alert("Please check your id and password again.");
+				alert("server error");
 			},
 			complete : function(data) {
 				console.log("complete");

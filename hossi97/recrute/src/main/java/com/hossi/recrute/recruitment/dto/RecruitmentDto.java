@@ -11,7 +11,7 @@ public class RecruitmentDto {
     private final LocalDate endDate;
     private final Integer salary;
     private final String location;
-    private final Integer workForm;
+    private final Integer contractType;
     private final String job;
     private final String skills;
     private final Integer career;
@@ -25,7 +25,7 @@ public class RecruitmentDto {
         LocalDate endDate,
         Integer salary,
         String location,
-        Integer workForm,
+        Integer contractType,
         String job,
         String skills,
         Integer career
@@ -38,7 +38,7 @@ public class RecruitmentDto {
         this.endDate = endDate;
         this.salary = salary;
         this.location = location;
-        this.workForm = workForm;
+        this.contractType = contractType;
         this.job = job;
         this.skills = skills;
         this.career = career;
@@ -76,8 +76,8 @@ public class RecruitmentDto {
         return location;
     }
 
-    public Integer getWorkForm() {
-        return workForm;
+    public Integer getContractType() {
+        return contractType;
     }
 
     public String getJob() {

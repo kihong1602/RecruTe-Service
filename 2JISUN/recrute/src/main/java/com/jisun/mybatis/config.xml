@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+
+ <typeAliases>
+	 <typeAlias alias="MemberDto" 	   type="com.jisun.dto.MemberDto"/>
+	 <typeAlias alias="CompRecruitDto" type="com.jisun.dto.CompRecruitDto"/>
+	 <typeAlias alias="ApplicantDto"   type="com.jisun.dto.ApplicantDto"/>
+ 	 <typeAlias alias="ExamDto" 	   type="com.jisun.dto.ExamDto"/>		
+ </typeAliases>	
+
+ <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver"   value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" 	  value="jdbc:mysql://localhost:3306/recrute"/>
+        <property name="username" value="root"/>
+        <property name="password" value="1234"/>
+      </dataSource>
+    </environment>
+  </environments>
+  
+  <mappers>
+     <mapper resource="com/jisun/mybatis/member.xml"/>
+     <mapper resource="com/jisun/mybatis/compRecruit.xml"/>
+     <mapper resource="com/jisun/mybatis/applicant.xml"/>
+     <mapper resource="com/jisun/mybatis/exam.xml"/>
+  </mappers>
+  
+</configuration>

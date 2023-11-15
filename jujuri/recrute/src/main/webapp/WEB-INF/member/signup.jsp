@@ -192,6 +192,7 @@ $("#btnIdCheck").on("click", function() {
 					$("#userId").attr("readonly", true);
 					btnIdCheck = true;
 				}
+				$("#btnIdCheck").attr("disabled", true);
 			}
 		},
 		complete : function(data) {
@@ -213,7 +214,7 @@ $("#btnVerifyEmail").on("click", function(e) {
 		success : function(data) {
 			console.log("success");
 			console.log(data);
-			if (data.sent === "true") {
+			if (data.sent === true) {
 				alert("해당 이메일로 인증키를 전송하였습니다.");
 				code = data.code;
 			} else {

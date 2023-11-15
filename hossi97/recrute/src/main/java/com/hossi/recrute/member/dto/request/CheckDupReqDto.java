@@ -1,9 +1,9 @@
 package com.hossi.recrute.member.dto.request;
 
 public class CheckDupReqDto {
-    private String memberId;
-    public CheckDupReqDto(String memberId) {
-        this.memberId = memberId;
+    private String username;
+    public CheckDupReqDto(String username) {
+        this.username = username;
     }
 
 }
