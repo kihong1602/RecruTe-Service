@@ -1,5 +1,6 @@
 package com.blanc.recrute.member.controller;
 
+import com.blanc.recrute.common.Authenticater;
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.common.Word;
@@ -7,7 +8,6 @@ import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.member.dto.LoginDTO;
 import com.blanc.recrute.member.service.MemberService;
 import com.blanc.recrute.member.service.MemberServiceImpl;
-import com.blanc.recrute.member.util.Authenticater;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

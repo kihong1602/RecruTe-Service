@@ -12,7 +12,7 @@ public class URLParser {
                    try {
                      return Integer.parseInt(str);
                    } catch (NumberFormatException e) {
-                     return null;
+                     throw new NumberFormatException();
                    }
                  }).orElse(null);
   }

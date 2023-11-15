@@ -29,7 +29,7 @@ public class ExamService {
     return EXAM_DAO.getExamination(recruitId);
   }
 
-  public String saveExamination(AnswerData answerData) {
+  public Word saveExamination(AnswerData answerData) {
 
     return EXAM_DAO.saveExamination(answerData) != null ? Word.SUCCESS : Word.FAIL;
   }

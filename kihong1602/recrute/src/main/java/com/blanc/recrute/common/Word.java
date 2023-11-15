@@ -1,15 +1,27 @@
 package com.blanc.recrute.common;
 
+public enum Word {
+  SUCCESS("success"),
+  FAIL("fail"),
+  AVAILABLE("available"),
+  UNAVAILABLE("unavailable"),
+  BLANK("blank"),
+  NONE("none"),
+  EXIST("exist"),
+  ERROR("error");
 
-public class Word {
+  private final String description;
 
-  public static final String SUCCESS = "success";
-  public static final String FAIL = "fail";
-  public static final String AVAILABLE = "available";
-  public static final String UNAVAILABLE = "unavailable";
-  public static final String BLANK = "blank";
-  public static final String NONE = "none";
-  public static final String EXIST = "exist";
-  public static final String ERROR = "error";
+  Word(String description) {
+    this.description = description;
+  }
+
+  public String value() {
+    return description;
+  }
+
+  public boolean equals(Word word) {
+    return this.value().equals(word.value());
+  }
 
 }

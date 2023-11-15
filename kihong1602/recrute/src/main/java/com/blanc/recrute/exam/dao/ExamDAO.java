@@ -24,7 +24,7 @@ public class ExamDAO {
       examDTO = examMapper.getRecruitTitleByAptId(aptId);
       sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
     return examDTO;
   }
@@ -42,9 +42,8 @@ public class ExamDAO {
 
       examinationDTOList = examMapper.getExaminationById(recruitId);
 
-      sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
     return examinationDTOList;
   }
@@ -57,9 +56,8 @@ public class ExamDAO {
 
       recruitId = examMapper.findRecruitIdByExamId(examId);
 
-      sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
 
     return recruitId;
@@ -73,9 +71,8 @@ public class ExamDAO {
 
       emailList = examMapper.getApplicantEmail(recruitIdDTO);
 
-      sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
     return emailList;
   }

@@ -19,6 +19,7 @@ import java.util.List;
 
 @WebServlet(name = "exam/*", value = "/exam/*")
 public class ExaminationController extends HttpServlet {
+
   //시험 응시 페이지 뷰, 시험응시 제출
   private final ExamService EXAM_SERVICE = new ExamService();
   private final Gson GSON = new Gson();
@@ -48,7 +49,7 @@ public class ExaminationController extends HttpServlet {
 
     AnswerData answerData = GSON.fromJson(parsingJson, AnswerData.class);
 
-    String result = EXAM_SERVICE.saveExamination(answerData);
+    Word result = EXAM_SERVICE.saveExamination(answerData);
 
     InvalidDTO invalidDTO =
         result.equals(Word.SUCCESS) ? new InvalidDTO(Word.AVAILABLE)

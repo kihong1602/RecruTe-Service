@@ -56,7 +56,7 @@ public class RecruitController extends HttpServlet {
     if (AuthCookie != null) {
 
       String memberId = (String) request.getSession().getAttribute(AuthCookie.getValue());
-      String result = RECRUIT_SERVICE.apply(applyInfoDTO, memberId);
+      Word result = RECRUIT_SERVICE.apply(applyInfoDTO, memberId);
 
       InvalidDTO invalidDTO =
           result.equals(Word.SUCCESS) ? new InvalidDTO(Word.AVAILABLE)

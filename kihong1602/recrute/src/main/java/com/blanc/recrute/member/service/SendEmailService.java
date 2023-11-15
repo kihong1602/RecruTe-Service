@@ -89,7 +89,7 @@ public class SendEmailService {
           "이메일 전송 성공 : " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss:SSS")));
 
     } catch (MessagingException e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
       System.out.println("이메일 전송 실패");
     }
   }

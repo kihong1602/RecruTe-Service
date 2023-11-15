@@ -21,10 +21,9 @@ public class RecruitDAO {
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
       detailDTO = recruitMapper.findRctDetailById(recruitDTO);
-
-      sqlSession.commit();
+      
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
 
     return detailDTO;
@@ -39,7 +38,7 @@ public class RecruitDAO {
       result = recruitMapper.saveApply(applyDTO);
       sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
 
     return result;
@@ -52,9 +51,8 @@ public class RecruitDAO {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
 
       id = recruitMapper.findIdByMemberId(memberRealId);
-      sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
 
     return id;

@@ -1,5 +1,9 @@
 package com.blanc.recrute.member.controller;
 
+import static com.blanc.recrute.common.Word.AVAILABLE;
+import static com.blanc.recrute.common.Word.BLANK;
+import static com.blanc.recrute.common.Word.UNAVAILABLE;
+
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dto.IdCheckDTO;
@@ -28,12 +32,12 @@ public class IdCheckController extends HttpServlet {
     IdCheckDTO idCheckDTO = GSON.fromJson(parsingJSON, IdCheckDTO.class);
     String memberId = idCheckDTO.getMemberId();
 
-    String check = MEMBER_SERVICE.idCheck(memberId);
+    Word check = MEMBER_SERVICE.idCheck(memberId);
 
     InvalidDTO invalidDTO = switch (check) {
-      case Word.EXIST -> new InvalidDTO(Word.UNAVAILABLE);
-      case Word.NONE -> new InvalidDTO(Word.AVAILABLE);
-      case Word.BLANK -> new InvalidDTO(Word.BLANK);
+      case EXIST -> new InvalidDTO(UNAVAILABLE);
+      case NONE -> new InvalidDTO(AVAILABLE);
+      case BLANK -> new InvalidDTO(BLANK);
       default -> null;
     };
 

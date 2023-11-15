@@ -1,6 +1,7 @@
 package com.blanc.recrute.recruitment.service;
 
 import com.blanc.recrute.common.AptIdFactory;
+import com.blanc.recrute.common.Count;
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.recruitment.dao.RecruitDAO;
 import com.blanc.recrute.recruitment.dto.ApplyDTO;
@@ -11,7 +12,6 @@ import com.blanc.recrute.recruitment.dto.RecruitDTO;
 public class RecruitService {
 
   private final RecruitDAO RECRUIT_DAO = new RecruitDAO();
-  private final int NONE = 0;
 
   public DetailDTO findRctDetail(Integer id) {
 
@@ -24,7 +24,7 @@ public class RecruitService {
     return null;
   }
 
-  public String apply(ApplyInfoDTO applyInfoDTO, String memberId) {
+  public Word apply(ApplyInfoDTO applyInfoDTO, String memberId) {
 
     Integer memberRealId = RECRUIT_DAO.findMemberId(memberId);
 
@@ -34,6 +34,6 @@ public class RecruitService {
                                               .memberId(memberRealId).build();
     int result = RECRUIT_DAO.apply(applyDto);
 
-    return result > NONE ? Word.SUCCESS : Word.FAIL;
+    return result > Count.ZERO.getNumber() ? Word.SUCCESS : Word.FAIL;
   }
 }

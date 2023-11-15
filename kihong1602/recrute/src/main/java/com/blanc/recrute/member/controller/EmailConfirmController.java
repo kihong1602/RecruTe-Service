@@ -20,20 +20,23 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name = "email", value = "/email")
 public class EmailConfirmController extends HttpServlet {
 
   private final MemberService MEMBER_SERVICE = new MemberServiceImpl();
   private final Gson GSON = new Gson();
+  private final Logger LOGGER = Logger.getLogger(EmailConfirmController.class.getName());
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     String path;
     if (request.getParameter("email") == null) {
-      path = "member/register/email-confirm";
-      ViewResolver.render(path, request, response);
+      redirectConfirmPage(request, response);
     } else {
       //이메일에 있는 링크 클릭 후 AuthKey 판별해서 Auth-status 카운트하는곳
       String email = request.getParameter("email");
@@ -41,15 +44,16 @@ public class EmailConfirmController extends HttpServlet {
       if (request.getSession().getAttribute("authKey").equals(authKey)) {
         //email의 파라미터로 들어온 authKey가 session에 저장된 authKey와 동일하다면
 
-        request.setAttribute("result", MEMBER_SERVICE.authGrantMember(email));
+        request.setAttribute("result", MEMBER_SERVICE.authGrantMember(email).value());
       } else {
         //동일하지 않다면..
-        request.setAttribute("result", Word.FAIL);
+        request.setAttribute("result", Word.FAIL.value());
       }
       path = "member/register/email-auth";
       ViewResolver.render(path, request, response);
     }
   }
+
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -83,14 +87,20 @@ public class EmailConfirmController extends HttpServlet {
     String result = GSON.toJson(invalidDTO);
     JsonUtil.sendJSON(response, result);
 
-    /*try {
+    try {
       emailFuture.get();
     } catch (InterruptedException | ExecutionException e) {
-      e.printStackTrace();
-    }*/
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+    }
     long endTime = System.currentTimeMillis();
 
     long elapsedTime = endTime - startTime;
     System.out.println("이메일 전송 시간: " + elapsedTime + "밀리초");
+  }
+
+  private void redirectConfirmPage(HttpServletRequest request, HttpServletResponse response)
+      throws ServletException, IOException {
+    String path = "member/register/email-confirm";
+    ViewResolver.render(path, request, response);
   }
 }

@@ -2,6 +2,7 @@ package com.blanc.recrute.exam.controller;
 
 import com.blanc.recrute.common.CookieManager;
 import com.blanc.recrute.common.JsonUtil;
+import com.blanc.recrute.common.TimeUnit;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.exam.dto.AptIdDTO;
@@ -24,7 +25,7 @@ public class ExamAuthController extends HttpServlet {
   private final ExamService EXAM_SERVICE = new ExamService();
   private final Gson GSON = new Gson();
   private final String EXAM_AUTH = "examAuth";
-  private final int HOUR = 60 * 60;
+
   //시험 인증 관련
 
   @Override
@@ -55,11 +56,10 @@ public class ExamAuthController extends HttpServlet {
 
     InvalidDTO invalidDTO;
     if (examAuth != null) {
-//      String sessionAptId = CookieManager.getSessionValue(request, examAuth);
-      String sessionAptId = "1111";
+
+      String sessionAptId = CookieManager.getSessionValue(request, examAuth);
       invalidDTO = sessionAptId.equals(aptIdDTO.getAptId()) ? new InvalidDTO(Word.AVAILABLE)
           : new InvalidDTO(Word.UNAVAILABLE);
-
 
     } else {
       invalidDTO = new InvalidDTO(Word.FAIL);
@@ -78,7 +78,7 @@ public class ExamAuthController extends HttpServlet {
     request.getSession().setAttribute(cookieValue, aptId);
 
     Cookie examAuthCookie = CookieManager.createCookie(EXAM_AUTH, cookieValue,
-                                                       HOUR);
+                                                       TimeUnit.HOUR.getValue());
     response.addCookie(examAuthCookie);
 
   }

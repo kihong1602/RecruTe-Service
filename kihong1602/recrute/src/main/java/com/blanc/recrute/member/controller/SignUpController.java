@@ -1,5 +1,6 @@
 package com.blanc.recrute.member.controller;
 
+import com.blanc.recrute.common.Count;
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.common.Word;
@@ -20,7 +21,6 @@ public class SignUpController extends HttpServlet {
 
   private final MemberService MEMBER_SERVICE = new MemberServiceImpl();
   private final Gson GSON = new Gson();
-  private static final int NONE = 0;
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -37,10 +37,10 @@ public class SignUpController extends HttpServlet {
 
     String parsingJSON = JsonUtil.jsonParsing(request);
     MemberInfoDTO memberDto = GSON.fromJson(parsingJSON, MemberInfoDTO.class);
-    int result = MEMBER_SERVICE.insertMember(memberDto);
+    Integer result = MEMBER_SERVICE.insertMember(memberDto);
 
     InvalidDTO invalidDTO =
-        result > NONE ? new InvalidDTO(Word.AVAILABLE) : new InvalidDTO(Word.UNAVAILABLE);
+        result > Count.ZERO.getNumber() ? new InvalidDTO(Word.AVAILABLE) : new InvalidDTO(Word.UNAVAILABLE);
 
     String json = GSON.toJson(invalidDTO);
     JsonUtil.sendJSON(response, json);

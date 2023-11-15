@@ -24,9 +24,8 @@ public class MemberDAOImpl implements MemberDAO {
 
       result = memberMapper.duplicateId(memberDTO);
 
-      sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
 
     return result;
@@ -45,7 +44,7 @@ public class MemberDAOImpl implements MemberDAO {
 
       sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
 
     }
 
@@ -61,9 +60,8 @@ public class MemberDAOImpl implements MemberDAO {
 
       memberId = memberMapper.loginCheck(memberDTO);
 
-      sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
     return memberId;
   }
@@ -78,9 +76,8 @@ public class MemberDAOImpl implements MemberDAO {
 
       findEmail = memberMapper.findEmailById(memberDTO);
 
-      sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
 
     return findEmail;
@@ -97,7 +94,7 @@ public class MemberDAOImpl implements MemberDAO {
 
       sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
 
     return result;

@@ -1,6 +1,6 @@
 package com.blanc.recrute.member.controller;
 
-import com.blanc.recrute.member.util.Authenticater;
+import com.blanc.recrute.common.Authenticater;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;

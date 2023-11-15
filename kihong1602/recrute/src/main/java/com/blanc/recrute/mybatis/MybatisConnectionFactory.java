@@ -20,7 +20,7 @@ public class MybatisConnectionFactory {
       InputStream inputStream = Resources.getResourceAsStream(resource);
       sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR, e);
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
   }
 
