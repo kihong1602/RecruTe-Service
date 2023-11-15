@@ -23,7 +23,6 @@ import java.util.UUID;
 public class ExamAuthController extends HttpServlet {
 
   private final ExamService EXAM_SERVICE = new ExamService();
-  private final Gson GSON = new Gson();
   private final String EXAM_AUTH = "examAuth";
 
   //시험 인증 관련
@@ -41,16 +40,14 @@ public class ExamAuthController extends HttpServlet {
 
     String path = "exam/exam-auth";
     ViewResolver.render(path, request, response);
-
-    response.getWriter().close();
   }
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
-    String parsingJson = JsonUtil.jsonParsing(request);
-    AptIdDTO aptIdDTO = GSON.fromJson(parsingJson, AptIdDTO.class);
+//    String parsingJson = JsonUtil.jsonParsing(request);
+    AptIdDTO aptIdDTO = JsonUtil.JsonParser(request, AptIdDTO.class);
 
     Cookie examAuth = CookieManager.getCookie(request, EXAM_AUTH);
 
@@ -65,8 +62,7 @@ public class ExamAuthController extends HttpServlet {
       invalidDTO = new InvalidDTO(Word.FAIL);
     }
 
-    String json = GSON.toJson(invalidDTO);
-    JsonUtil.sendJSON(response, json);
+    JsonUtil.sendJSON(response, invalidDTO);
 
   }
 

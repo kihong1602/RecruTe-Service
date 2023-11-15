@@ -1,9 +1,11 @@
 package com.blanc.recrute.member.controller;
 
-import com.blanc.recrute.common.Count;
+import static com.blanc.recrute.common.Count.ZERO;
+import static com.blanc.recrute.common.Word.AVAILABLE;
+import static com.blanc.recrute.common.Word.UNAVAILABLE;
+
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.ViewResolver;
-import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.member.dto.MemberInfoDTO;
 import com.blanc.recrute.member.service.MemberService;
@@ -20,7 +22,6 @@ import java.io.IOException;
 public class SignUpController extends HttpServlet {
 
   private final MemberService MEMBER_SERVICE = new MemberServiceImpl();
-  private final Gson GSON = new Gson();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,14 +36,12 @@ public class SignUpController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
-    String parsingJSON = JsonUtil.jsonParsing(request);
-    MemberInfoDTO memberDto = GSON.fromJson(parsingJSON, MemberInfoDTO.class);
+    MemberInfoDTO memberDto = JsonUtil.JsonParser(request, MemberInfoDTO.class);
     Integer result = MEMBER_SERVICE.insertMember(memberDto);
 
     InvalidDTO invalidDTO =
-        result > Count.ZERO.getNumber() ? new InvalidDTO(Word.AVAILABLE) : new InvalidDTO(Word.UNAVAILABLE);
+        result > ZERO.getNumber() ? new InvalidDTO(AVAILABLE) : new InvalidDTO(UNAVAILABLE);
 
-    String json = GSON.toJson(invalidDTO);
-    JsonUtil.sendJSON(response, json);
+    JsonUtil.sendJSON(response, invalidDTO);
   }
 }

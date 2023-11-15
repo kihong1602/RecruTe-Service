@@ -21,9 +21,7 @@ import java.io.IOException;
 @WebServlet(name = "RecruitController", value = "/recruitments/*")
 public class RecruitController extends HttpServlet {
 
-
   private final RecruitService RECRUIT_SERVICE = new RecruitService();
-  private final Gson GSON = new Gson();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,9 +45,7 @@ public class RecruitController extends HttpServlet {
     //비동기 처리 apt_id 는 회사ID+회사Name+응시순서+@로 입력
     //외래키 삽입을 위해 MemberDTO 사용해야함
 
-    String parsingJSON = JsonUtil.jsonParsing(request);
-
-    ApplyInfoDTO applyInfoDTO = GSON.fromJson(parsingJSON, ApplyInfoDTO.class);
+    ApplyInfoDTO applyInfoDTO = JsonUtil.JsonParser(request, ApplyInfoDTO.class);
 
     Cookie AuthCookie = CookieManager.getCookie(request, "sid");
 
@@ -62,9 +58,8 @@ public class RecruitController extends HttpServlet {
           result.equals(Word.SUCCESS) ? new InvalidDTO(Word.AVAILABLE)
               : new InvalidDTO(Word.UNAVAILABLE);
 
-      String json = GSON.toJson(invalidDTO);
 
-      JsonUtil.sendJSON(response, json);
+      JsonUtil.sendJSON(response, invalidDTO);
 
     }//end of if
   }

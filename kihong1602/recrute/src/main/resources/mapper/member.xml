@@ -13,7 +13,7 @@
   <select id="findEmailById" parameterType="MemberDTO" resultType="String">
     select email from member where member_id = #{memberId}
   </select>
-  <select id="loginCheck" parameterType="MemberDTO" resultType="String">
+  <select id="loginCheck" parameterType="LoginDTO" resultType="String">
     select member_id from member where member_id = #{memberId} and password = #{password}
   </select>
   <update id="emailAuth" parameterType="MemberDTO">

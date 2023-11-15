@@ -1,5 +1,8 @@
 package com.blanc.recrute.exam.service;
 
+import static com.blanc.recrute.common.Word.FAIL;
+import static com.blanc.recrute.common.Word.SUCCESS;
+
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.exam.dao.ExamDAO;
 import com.blanc.recrute.exam.dto.ExaminationDTO;
@@ -31,7 +34,7 @@ public class ExamService {
 
   public Word saveExamination(AnswerData answerData) {
 
-    return EXAM_DAO.saveExamination(answerData) != null ? Word.SUCCESS : Word.FAIL;
+    return EXAM_DAO.saveExamination(answerData) != null ? SUCCESS : FAIL;
   }
 
   public void sendEmailToApplicant(RecruitIdDTO recruitIdDTO) {

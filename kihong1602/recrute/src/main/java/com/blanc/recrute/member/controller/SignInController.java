@@ -1,14 +1,15 @@
 package com.blanc.recrute.member.controller;
 
+import static com.blanc.recrute.common.Word.AVAILABLE;
+import static com.blanc.recrute.common.Word.UNAVAILABLE;
+
 import com.blanc.recrute.common.Authenticater;
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.ViewResolver;
-import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.member.dto.LoginDTO;
 import com.blanc.recrute.member.service.MemberService;
 import com.blanc.recrute.member.service.MemberServiceImpl;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -22,7 +23,6 @@ public class SignInController extends HttpServlet {
 
   private final MemberService MEMBER_SERVICE = new MemberServiceImpl();
   private final Authenticater AUTHENTICATER = new Authenticater();
-  private final Gson GSON = new Gson();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -42,24 +42,25 @@ public class SignInController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
-    String parsingJSON = JsonUtil.jsonParsing(request);
-
-    LoginDTO loginDTO = GSON.fromJson(parsingJSON, LoginDTO.class);
+    LoginDTO loginDTO = JsonUtil.JsonParser(request, LoginDTO.class);
 
     boolean check = MEMBER_SERVICE.loginCheck(loginDTO);
     InvalidDTO invalidDTO;
-    String result;
+
     if (check) {
-      invalidDTO = new InvalidDTO(Word.AVAILABLE);
+      invalidDTO = new InvalidDTO(AVAILABLE);
 
-      AUTHENTICATER.setAuthCookie(request, loginDTO.getMemberId());
-      Cookie authCookie = AUTHENTICATER.getAuthCookie();
-      response.addCookie(authCookie);
+      createAuthCookie(request, response, loginDTO);
     } else {
-      invalidDTO = new InvalidDTO(Word.UNAVAILABLE);
+      invalidDTO = new InvalidDTO(UNAVAILABLE);
     }
-    result = GSON.toJson(invalidDTO);
 
-    JsonUtil.sendJSON(response, result);
+    JsonUtil.sendJSON(response, invalidDTO);
+  }
+
+  private void createAuthCookie(HttpServletRequest request, HttpServletResponse response, LoginDTO loginDTO) {
+    AUTHENTICATER.setAuthCookie(request, loginDTO.getMemberId());
+    Cookie authCookie = AUTHENTICATER.getAuthCookie();
+    response.addCookie(authCookie);
   }
 }

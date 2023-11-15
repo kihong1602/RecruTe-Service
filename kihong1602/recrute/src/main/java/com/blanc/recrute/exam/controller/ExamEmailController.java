@@ -18,7 +18,6 @@ import java.io.IOException;
 public class ExamEmailController extends HttpServlet {
 
   private final ExamService EXAM_SERVICE = new ExamService();
-  private final Gson GSON = new Gson();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -30,14 +29,13 @@ public class ExamEmailController extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    String parsingJSON = JsonUtil.jsonParsing(request);
-    RecruitIdDTO recruitIdDTO = GSON.fromJson(parsingJSON, RecruitIdDTO.class);
+
+    RecruitIdDTO recruitIdDTO = JsonUtil.JsonParser(request, RecruitIdDTO.class);
 
 //-----------------------------------------------------//
     EXAM_SERVICE.sendEmailToApplicant(recruitIdDTO);
     InvalidDTO invalidDTO = new InvalidDTO(Word.AVAILABLE);
-    String json = GSON.toJson(invalidDTO);
-    JsonUtil.sendJSON(response, json);
+    JsonUtil.sendJSON(response, invalidDTO);
 //-----------------------------------------------------//
 
   }

@@ -1,5 +1,9 @@
 package com.blanc.recrute.exam.controller;
 
+import static com.blanc.recrute.common.Word.AVAILABLE;
+import static com.blanc.recrute.common.Word.SUCCESS;
+import static com.blanc.recrute.common.Word.UNAVAILABLE;
+
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.URLParser;
 import com.blanc.recrute.common.ViewResolver;
@@ -22,7 +26,6 @@ public class ExaminationController extends HttpServlet {
 
   //시험 응시 페이지 뷰, 시험응시 제출
   private final ExamService EXAM_SERVICE = new ExamService();
-  private final Gson GSON = new Gson();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -44,18 +47,15 @@ public class ExaminationController extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    String parsingJson = JsonUtil.jsonParsing(request);
-    //파싱하면 어떻게 값이 들어오나? 확인해봐야함.
 
-    AnswerData answerData = GSON.fromJson(parsingJson, AnswerData.class);
+    AnswerData answerData = JsonUtil.JsonParser(request, AnswerData.class);
 
     Word result = EXAM_SERVICE.saveExamination(answerData);
 
     InvalidDTO invalidDTO =
-        result.equals(Word.SUCCESS) ? new InvalidDTO(Word.AVAILABLE)
-            : new InvalidDTO(Word.UNAVAILABLE);
+        result.equals(SUCCESS) ? new InvalidDTO(AVAILABLE)
+            : new InvalidDTO(UNAVAILABLE);
 
-    String json = GSON.toJson(invalidDTO);
-    JsonUtil.sendJSON(response, json);
+    JsonUtil.sendJSON(response, invalidDTO);
   }
 }

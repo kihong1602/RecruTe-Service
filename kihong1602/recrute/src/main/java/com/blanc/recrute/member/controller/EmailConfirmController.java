@@ -1,9 +1,12 @@
 package com.blanc.recrute.member.controller;
 
+import static com.blanc.recrute.common.Word.AVAILABLE;
+import static com.blanc.recrute.common.Word.ERROR;
+import static com.blanc.recrute.common.Word.FAIL;
+
 import com.blanc.recrute.common.CookieManager;
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.ViewResolver;
-import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dto.ConfirmValueDTO;
 import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.member.dto.MemberDTO;
@@ -28,7 +31,6 @@ import java.util.logging.Logger;
 public class EmailConfirmController extends HttpServlet {
 
   private final MemberService MEMBER_SERVICE = new MemberServiceImpl();
-  private final Gson GSON = new Gson();
   private final Logger LOGGER = Logger.getLogger(EmailConfirmController.class.getName());
 
   @Override
@@ -47,7 +49,7 @@ public class EmailConfirmController extends HttpServlet {
         request.setAttribute("result", MEMBER_SERVICE.authGrantMember(email).value());
       } else {
         //동일하지 않다면..
-        request.setAttribute("result", Word.FAIL.value());
+        request.setAttribute("result", FAIL.value());
       }
       path = "member/register/email-auth";
       ViewResolver.render(path, request, response);
@@ -59,8 +61,8 @@ public class EmailConfirmController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     long startTime = System.currentTimeMillis();
-    String parsingJson = JsonUtil.jsonParsing(request);
-    ConfirmValueDTO confirmValueDTO = GSON.fromJson(parsingJson, ConfirmValueDTO.class);
+
+    ConfirmValueDTO confirmValueDTO = JsonUtil.JsonParser(request, ConfirmValueDTO.class);
 
     String memberId = confirmValueDTO.getKey();
 
@@ -80,17 +82,16 @@ public class EmailConfirmController extends HttpServlet {
     CompletableFuture<Void> emailFuture = CompletableFuture.runAsync(() -> {
       SendEmailService.mailSend(memberDTO.getEmail(), authKey);
     });
-//    SendEmailService.mailSend(emailInfoDTO, authKey);
-    InvalidDTO invalidDTO = new InvalidDTO(Word.AVAILABLE);
+
+    InvalidDTO invalidDTO = new InvalidDTO(AVAILABLE);
     request.getSession().setAttribute("authKey", authKey);
 
-    String result = GSON.toJson(invalidDTO);
-    JsonUtil.sendJSON(response, result);
+    JsonUtil.sendJSON(response, invalidDTO);
 
     try {
       emailFuture.get();
     } catch (InterruptedException | ExecutionException e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      LOGGER.log(Level.SEVERE, ERROR.value(), e);
     }
     long endTime = System.currentTimeMillis();
 

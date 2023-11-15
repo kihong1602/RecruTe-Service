@@ -10,7 +10,6 @@ import com.blanc.recrute.member.dto.IdCheckDTO;
 import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.member.service.MemberService;
 import com.blanc.recrute.member.service.MemberServiceImpl;
-import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,15 +20,12 @@ import java.io.IOException;
 public class IdCheckController extends HttpServlet {
 
   private final MemberService MEMBER_SERVICE = new MemberServiceImpl();
-  private final Gson GSON = new Gson();
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
-    String parsingJSON = JsonUtil.jsonParsing(request);
-
-    IdCheckDTO idCheckDTO = GSON.fromJson(parsingJSON, IdCheckDTO.class);
+    IdCheckDTO idCheckDTO = JsonUtil.JsonParser(request, IdCheckDTO.class);
     String memberId = idCheckDTO.getMemberId();
 
     Word check = MEMBER_SERVICE.idCheck(memberId);
@@ -41,8 +37,6 @@ public class IdCheckController extends HttpServlet {
       default -> null;
     };
 
-    String result = GSON.toJson(invalidDTO);
-
-    JsonUtil.sendJSON(response, result);
+    JsonUtil.sendJSON(response, invalidDTO);
   }
 }

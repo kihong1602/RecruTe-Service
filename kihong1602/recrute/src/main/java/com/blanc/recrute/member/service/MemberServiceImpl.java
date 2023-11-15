@@ -1,5 +1,8 @@
 package com.blanc.recrute.member.service;
 
+import static com.blanc.recrute.common.Count.*;
+import static com.blanc.recrute.common.Word.*;
+
 import com.blanc.recrute.common.Count;
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dao.MemberDAO;
@@ -23,22 +26,18 @@ public class MemberServiceImpl implements MemberService {
   public Word idCheck(String id) {
 
     if (id == null || id.isEmpty()) {
-      return Word.BLANK;
+      return BLANK;
     }
 
-    return MEMBER_DAO.idCheck(id) <= Count.ZERO.getNumber() ? Word.NONE : Word.EXIST;
+    return MEMBER_DAO.idCheck(id) <= ZERO.getNumber() ? NONE : EXIST;
   }
 
   @Override
   public boolean loginCheck(LoginDTO loginDTO) {
 
-    MemberDTO memberDTO = new MemberDTO.Builder().memberId(loginDTO.getMemberId())
-                                                 .password(loginDTO.getPassword()).build();
-    String memberId = MEMBER_DAO.loginCheck(memberDTO);
-    //여기서 LoginDTO로 입력
+    String memberId = MEMBER_DAO.loginCheck(loginDTO);
 
     return memberId != null;
-
   }
 
   @Override
@@ -54,6 +53,6 @@ public class MemberServiceImpl implements MemberService {
 
     int result = MEMBER_DAO.authGrantMember(new MemberDTO.Builder().email(email).build());
 
-    return result > Count.ZERO.getNumber() ? Word.SUCCESS : Word.FAIL;
+    return result > ZERO.getNumber() ? SUCCESS : FAIL;
   }
 }

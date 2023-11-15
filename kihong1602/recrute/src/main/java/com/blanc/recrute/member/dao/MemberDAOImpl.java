@@ -1,6 +1,7 @@
 package com.blanc.recrute.member.dao;
 
 import com.blanc.recrute.common.Word;
+import com.blanc.recrute.member.dto.LoginDTO;
 import com.blanc.recrute.member.dto.MemberDTO;
 import com.blanc.recrute.member.dto.MemberInfoDTO;
 import com.blanc.recrute.mybatis.MemberMapper;
@@ -52,13 +53,13 @@ public class MemberDAOImpl implements MemberDAO {
   }
 
   @Override
-  public String loginCheck(MemberDTO memberDTO) {
+  public String loginCheck(LoginDTO loginDTO) {
     String memberId = null;
 
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
 
-      memberId = memberMapper.loginCheck(memberDTO);
+      memberId = memberMapper.loginCheck(loginDTO);
 
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
