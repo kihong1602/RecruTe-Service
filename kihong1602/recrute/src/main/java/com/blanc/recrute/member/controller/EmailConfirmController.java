@@ -1,10 +1,10 @@
 package com.blanc.recrute.member.controller;
 
 import static com.blanc.recrute.common.Word.AVAILABLE;
-import static com.blanc.recrute.common.Word.ERROR;
 import static com.blanc.recrute.common.Word.FAIL;
 
 import com.blanc.recrute.common.CookieManager;
+import com.blanc.recrute.common.EmailService;
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.member.dto.ConfirmValueDTO;
@@ -12,8 +12,6 @@ import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.member.dto.MemberDTO;
 import com.blanc.recrute.member.service.MemberService;
 import com.blanc.recrute.member.service.MemberServiceImpl;
-import com.blanc.recrute.member.service.SendEmailService;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -22,16 +20,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @WebServlet(name = "email", value = "/email")
 public class EmailConfirmController extends HttpServlet {
 
   private final MemberService MEMBER_SERVICE = new MemberServiceImpl();
-  private final Logger LOGGER = Logger.getLogger(EmailConfirmController.class.getName());
+
+  private final EmailService emailService = new EmailService();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -60,8 +55,6 @@ public class EmailConfirmController extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    long startTime = System.currentTimeMillis();
-
     ConfirmValueDTO confirmValueDTO = JsonUtil.JsonParser(request, ConfirmValueDTO.class);
 
     String memberId = confirmValueDTO.getKey();
@@ -75,28 +68,15 @@ public class EmailConfirmController extends HttpServlet {
     }
 
     MemberDTO memberDTO = MEMBER_SERVICE.findEmail(memberId);
-
     String authKey = String.valueOf(UUID.randomUUID());
 
-    //이메일 발송
-    CompletableFuture<Void> emailFuture = CompletableFuture.runAsync(() -> {
-      SendEmailService.mailSend(memberDTO.getEmail(), authKey);
-    });
+    emailService.SendMemberAuthEmail(memberDTO.getEmail(), authKey);
 
     InvalidDTO invalidDTO = new InvalidDTO(AVAILABLE);
     request.getSession().setAttribute("authKey", authKey);
 
     JsonUtil.sendJSON(response, invalidDTO);
 
-    try {
-      emailFuture.get();
-    } catch (InterruptedException | ExecutionException e) {
-      LOGGER.log(Level.SEVERE, ERROR.value(), e);
-    }
-    long endTime = System.currentTimeMillis();
-
-    long elapsedTime = endTime - startTime;
-    System.out.println("이메일 전송 시간: " + elapsedTime + "밀리초");
   }
 
   private void redirectConfirmPage(HttpServletRequest request, HttpServletResponse response)

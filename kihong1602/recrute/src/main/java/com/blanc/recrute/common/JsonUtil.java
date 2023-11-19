@@ -19,7 +19,8 @@ public class JsonUtil {
     return parsingJson(bodyParsingJson, className);
   }
 
-  public static void sendJSON(HttpServletResponse response, InvalidDTO invalidDTO) throws IOException {
+  public static <T extends InvalidDTO> void sendJSON(HttpServletResponse response, T invalidDTO)
+      throws IOException {
     String json = gsonThreadLocal.get().toJson(invalidDTO);
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");

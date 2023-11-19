@@ -1,6 +1,9 @@
-package com.blanc.recrute.member.service;
+package com.blanc.recrute.common;
 
-import com.blanc.recrute.common.Word;
+import static com.blanc.recrute.common.Word.ERROR;
+import static com.blanc.recrute.common.Word.FAIL;
+import static com.blanc.recrute.common.Word.SUCCESS;
+
 import com.blanc.recrute.member.dto.EmailInfoDTO;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;
@@ -9,45 +12,47 @@ import jakarta.mail.PasswordAuthentication;
 import jakarta.mail.Session;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SendEmailService {
+public class EmailSender {
 
-  private static final Logger LOGGER = Logger.getLogger(SendEmailService.class.getName());
-  private static final String HOST = "gmail";
+  private static final Logger LOGGER = Logger.getLogger(EmailSender.class.getName());
+  private final Host HOST;
 
-  public static void mailSend(String receiveEmail, String authKey) {
+  public EmailSender(Host HOST) {
+    this.HOST = HOST;
+  }
+
+  public Word mailSend(String receiveEmail, String title, String content) {
     EmailInfoDTO emailInfoDTO = new EmailInfoDTO(receiveEmail);
     Properties props = setProperties();
 
-    sendEmail(emailInfoDTO, authKey, props);
+    return sendEmail(emailInfoDTO, title, content, props);
   }
 
-  private static Properties setProperties() {
+  private Properties setProperties() {
     //호스팅 메일서버 지정, properties 설정
     switch (HOST) {
-      case "naver":
-        String host = "smtp.naver.com";
+      case NAVER:
+        String naver = "smtp.naver.com";
 
         Properties props = new Properties();
-        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.host", naver);
         props.put("mail.smtp.port", 587);
         props.put("mail.smtp.auth", "true");
 
         return props;
-      case "gmail":
-        host = "smtp.gmail.com";
+      case GOOGLE:
+        String google = "smtp.gmail.com";
 
         props = new Properties();
-        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.host", google);
         props.put("mail.smtp.port", 465);
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.ssl.enable", "true");
-        props.put("mail.smtp.ssl.trust", host);
+        props.put("mail.smtp.ssl.trust", HOST.getName());
         return props;
       default:
         return null;
@@ -55,7 +60,7 @@ public class SendEmailService {
 
   }
 
-  private static void sendEmail(EmailInfoDTO emailInfoDTO, String authKey, Properties props) {
+  private Word sendEmail(EmailInfoDTO emailInfoDTO, String title, String content, Properties props) {
     //권한 등록
     Session session = Session.getDefaultInstance(props, new Authenticator() {
       @Override
@@ -73,25 +78,19 @@ public class SendEmailService {
       message.addRecipient(Message.RecipientType.TO,
                            new InternetAddress(emailInfoDTO.getReceiveEmail()));
 
-      message.setSubject("RecruTe 이메일 인증메일입니다.");
-      String msgContent = "<h1>[이메일 인증]</h1>"
-          + "<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>"
-          + "<a href='http://localhost:8080/email?email="
-          + emailInfoDTO.getReceiveEmail()
-          + "&authKey="
-          + authKey
-          + "' target='_blank'>이메일 인증 확인</a>";
-      message.setContent(msgContent, "text/html;charset=UTF-8");
+      message.setSubject(title);
+      message.setText(content);
+      message.setContent(content, "text/html;charset=UTF-8");
 
 //      Transport.send(message);
 
-      System.out.println(
-          "이메일 전송 성공 : " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss:SSS")));
+      Thread.sleep(2);
+    } catch (MessagingException | InterruptedException e) {
+      LOGGER.log(Level.SEVERE, ERROR.value(), e);
 
-    } catch (MessagingException e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      System.out.println("이메일 전송 실패");
+      return FAIL;
     }
+    return SUCCESS;
   }
 
 }

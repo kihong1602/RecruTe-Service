@@ -1,4 +1,4 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.recruitment.dto;
 
 public enum Career {
   NEW("신입", "newbie"),

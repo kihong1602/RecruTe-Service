@@ -6,7 +6,6 @@ import com.blanc.recrute.common.Word;
 import com.blanc.recrute.exam.dto.RecruitIdDTO;
 import com.blanc.recrute.exam.service.ExamService;
 import com.blanc.recrute.member.dto.InvalidDTO;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -33,9 +32,15 @@ public class ExamEmailController extends HttpServlet {
     RecruitIdDTO recruitIdDTO = JsonUtil.JsonParser(request, RecruitIdDTO.class);
 
 //-----------------------------------------------------//
-    EXAM_SERVICE.sendEmailToApplicant(recruitIdDTO);
-    InvalidDTO invalidDTO = new InvalidDTO(Word.AVAILABLE);
-    JsonUtil.sendJSON(response, invalidDTO);
+    String result = EXAM_SERVICE.sendEmailToApplicant(recruitIdDTO);
+    //나온 값이 Success 면 AVAILABLE 반환, 아니라면 실패한 이메일 List 를 JSON으로 변환해서 던지기
+    InvalidDTO invalidDTO = null;
+    if (result.equals(Word.SUCCESS.value())) {
+      invalidDTO = new InvalidDTO(Word.AVAILABLE);
+      JsonUtil.sendJSON(response, invalidDTO);
+    } else {
+      JsonUtil.sendJSON(response, invalidDTO);//여기는 수정예정..
+    }
 //-----------------------------------------------------//
 
   }

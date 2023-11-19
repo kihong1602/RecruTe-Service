@@ -1,4 +1,4 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.recruitment.dto;
 
 public enum WorkForm {
   TW("비정규직", "Temporary Worker"),

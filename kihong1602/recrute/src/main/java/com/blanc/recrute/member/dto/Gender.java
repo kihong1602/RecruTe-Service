@@ -1,4 +1,4 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.member.dto;
 
 public enum Gender {
   FEMALE("여성"),
