@@ -13,7 +13,7 @@ public interface MemberMapper {
 
   String findEmailById(MemberDTO memberDTO);
 
-  String loginCheck(LoginDTO loginDTO);
+  LoginDTO loginCheck(LoginDTO loginDTO);
 
   int emailAuth(MemberDTO memberDTO);
 }

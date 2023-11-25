@@ -11,19 +11,19 @@ import java.io.IOException;
 @WebServlet(name = "signout", value = "/signout")
 public class SignOutController extends HttpServlet {
 
-  private final Authenticater AUTHENTICATER = new Authenticater();
+  private final Authenticater authenticater = new Authenticater();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     depriveAuth(request, response);
-    response.setStatus(response.SC_FOUND);
+    response.setStatus(HttpServletResponse.SC_FOUND);
     response.sendRedirect("/");
   }
 
   private void depriveAuth(HttpServletRequest request, HttpServletResponse response) {
-    if (AUTHENTICATER.isAuthenticated(request)) {
-      Cookie cookie = AUTHENTICATER.expireAuthCookie();
+    if (authenticater.isAuthenticated(request)) {
+      Cookie cookie = authenticater.expireAuthCookie();
       response.addCookie(cookie);
     }
   }

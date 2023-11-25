@@ -8,7 +8,7 @@ public interface MemberDAO {
 
   int insertMember(MemberInfoDTO memberDTO);
 
-  String loginCheck(LoginDTO loginDTO);
+  LoginDTO loginCheck(LoginDTO loginDTO);
 
   int idCheck(String id);
 

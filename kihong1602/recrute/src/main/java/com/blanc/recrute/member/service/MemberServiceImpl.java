@@ -1,15 +1,19 @@
 package com.blanc.recrute.member.service;
 
-import static com.blanc.recrute.common.Count.*;
-import static com.blanc.recrute.common.Word.*;
+import static com.blanc.recrute.common.Count.ZERO;
+import static com.blanc.recrute.common.Word.BLANK;
+import static com.blanc.recrute.common.Word.EXIST;
+import static com.blanc.recrute.common.Word.FAIL;
+import static com.blanc.recrute.common.Word.NONE;
+import static com.blanc.recrute.common.Word.SUCCESS;
 
-import com.blanc.recrute.common.Count;
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dao.MemberDAO;
 import com.blanc.recrute.member.dao.MemberDAOImpl;
 import com.blanc.recrute.member.dto.LoginDTO;
 import com.blanc.recrute.member.dto.MemberDTO;
 import com.blanc.recrute.member.dto.MemberInfoDTO;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class MemberServiceImpl implements MemberService {
 
@@ -17,7 +21,7 @@ public class MemberServiceImpl implements MemberService {
 
   @Override
   public Integer insertMember(MemberInfoDTO memberDTO) {
-
+    memberDTO.passwordEncoding();
     return memberDTO != null ? MEMBER_DAO.insertMember(memberDTO) : 0;
 
   }
@@ -35,24 +39,31 @@ public class MemberServiceImpl implements MemberService {
   @Override
   public boolean loginCheck(LoginDTO loginDTO) {
 
-    String memberId = MEMBER_DAO.loginCheck(loginDTO);
+    LoginDTO savedLoginDto = MEMBER_DAO.loginCheck(loginDTO);
 
-    return memberId != null;
+    return passwordInvalid(loginDTO.getPassword(), savedLoginDto.getPassword());
   }
 
   @Override
   public MemberDTO findEmail(String memberId) {
 
-    String findEmail = MEMBER_DAO.findEmail(new MemberDTO.Builder().memberId(memberId).build());
+    String findEmail = MEMBER_DAO.findEmail(new MemberDTO.Builder().memberId(memberId)
+                                                                   .build());
 
-    return new MemberDTO.Builder().email(findEmail).build();
+    return new MemberDTO.Builder().email(findEmail)
+                                  .build();
   }
 
   @Override
   public Word authGrantMember(String email) {
 
-    int result = MEMBER_DAO.authGrantMember(new MemberDTO.Builder().email(email).build());
+    int result = MEMBER_DAO.authGrantMember(new MemberDTO.Builder().email(email)
+                                                                   .build());
 
     return result > ZERO.getNumber() ? SUCCESS : FAIL;
+  }
+
+  public boolean passwordInvalid(String inputPassword, String savedPassword) {
+    return BCrypt.checkpw(inputPassword, savedPassword);
   }
 }

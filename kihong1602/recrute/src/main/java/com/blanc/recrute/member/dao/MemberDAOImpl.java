@@ -17,7 +17,8 @@ public class MemberDAOImpl implements MemberDAO {
   @Override
   public int idCheck(String id) {
 
-    MemberDTO memberDTO = new MemberDTO.Builder().memberId(id).build();
+    MemberDTO memberDTO = new MemberDTO.Builder().memberId(id)
+                                                 .build();
     Integer result = 0;
 
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
@@ -39,9 +40,7 @@ public class MemberDAOImpl implements MemberDAO {
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
 
-//      memberMapper = sqlSession.getMapper(MemberMapper.class);
       result = memberMapper.saveMember(memberDTO);
-//      result = sqlSession.insert("saveMember", memberDTO);
 
       sqlSession.commit();
     } catch (Exception e) {
@@ -53,18 +52,18 @@ public class MemberDAOImpl implements MemberDAO {
   }
 
   @Override
-  public String loginCheck(LoginDTO loginDTO) {
-    String memberId = null;
+  public LoginDTO loginCheck(LoginDTO loginDTO) {
+    LoginDTO savedLoginDto = null;
 
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
 
-      memberId = memberMapper.loginCheck(loginDTO);
+      savedLoginDto = memberMapper.loginCheck(loginDTO);
 
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
     }
-    return memberId;
+    return savedLoginDto;
   }
 
 

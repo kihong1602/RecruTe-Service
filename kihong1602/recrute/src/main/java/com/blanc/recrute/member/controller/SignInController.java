@@ -21,16 +21,16 @@ import java.io.IOException;
 @WebServlet(name = "signin", value = "/signin")
 public class SignInController extends HttpServlet {
 
-  private final MemberService MEMBER_SERVICE = new MemberServiceImpl();
-  private final Authenticater AUTHENTICATER = new Authenticater();
+  private final MemberService memberService = new MemberServiceImpl();
+  private final Authenticater authenticater = new Authenticater();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    if (AUTHENTICATER.isAuthenticated(request)) {
-      Cookie renewdAuthCookie = AUTHENTICATER.getAuthCookie();
+    if (authenticater.isAuthenticated(request)) {
+      Cookie renewdAuthCookie = authenticater.getAuthCookie();
       response.addCookie(renewdAuthCookie);
-      response.setStatus(response.SC_FOUND);
+      response.setStatus(HttpServletResponse.SC_FOUND);
       response.sendRedirect("/");
     } else {
       String path = "member/login/signin-process";
@@ -44,7 +44,7 @@ public class SignInController extends HttpServlet {
 
     LoginDTO loginDTO = JsonUtil.JsonParser(request, LoginDTO.class);
 
-    boolean check = MEMBER_SERVICE.loginCheck(loginDTO);
+    boolean check = memberService.loginCheck(loginDTO);
     InvalidDTO invalidDTO;
 
     if (check) {
@@ -59,8 +59,8 @@ public class SignInController extends HttpServlet {
   }
 
   private void createAuthCookie(HttpServletRequest request, HttpServletResponse response, LoginDTO loginDTO) {
-    AUTHENTICATER.setAuthCookie(request, loginDTO.getMemberId());
-    Cookie authCookie = AUTHENTICATER.getAuthCookie();
+    authenticater.setAuthCookie(request, loginDTO.getMemberId());
+    Cookie authCookie = authenticater.getAuthCookie();
     response.addCookie(authCookie);
   }
 }

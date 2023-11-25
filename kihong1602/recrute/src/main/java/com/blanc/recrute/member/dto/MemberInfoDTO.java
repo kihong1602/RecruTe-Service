@@ -1,5 +1,7 @@
 package com.blanc.recrute.member.dto;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 public class MemberInfoDTO {
 
   private String memberId;
@@ -48,4 +50,10 @@ public class MemberInfoDTO {
   public String getPhoneNumber() {
     return phoneNumber;
   }
+
+  public void passwordEncoding() {
+    this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
+  }
+
+
 }
