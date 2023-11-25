@@ -30,9 +30,9 @@ public class RecruitDAO {
     return detailDTO;
   }
 
-  public int apply(ApplyDTO applyDTO) {
+  public Integer apply(ApplyDTO applyDTO) {
 
-    int result;
+    Integer result;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
 
@@ -40,7 +40,7 @@ public class RecruitDAO {
       sqlSession.commit();
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      result = 0;
+      result = null;
     }
 
     return result;
