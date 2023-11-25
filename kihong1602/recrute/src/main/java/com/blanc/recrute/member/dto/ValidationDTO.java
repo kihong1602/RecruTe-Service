@@ -2,12 +2,16 @@ package com.blanc.recrute.member.dto;
 
 import com.blanc.recrute.common.Word;
 
-public class InvalidDTO {
+public class ValidationDTO {
 
   private final String data;
 
-  public InvalidDTO(Word data) {
+  public ValidationDTO(Word data) {
     this.data = data.value();
+  }
+
+  public String getData() {
+    return data;
   }
 
   @Override

@@ -13,10 +13,10 @@
   <select id="findEmailById" parameterType="MemberDTO" resultType="String">
     select email from member where member_id = #{memberId}
   </select>
-  <select id="loginCheck" parameterType="LoginDTO" resultType="LoginDTO">
+  <select id="findPasswordByMemberId" parameterType="LoginDTO" resultType="LoginDTO">
     select member_id as memberId, password from member where member_id = #{memberId}
   </select>
-  <update id="emailAuth" parameterType="MemberDTO">
+  <update id="updateMemberAuthentication" parameterType="MemberDTO">
     update member set auth_status = true where email = #{email}
   </update>
 </mapper>

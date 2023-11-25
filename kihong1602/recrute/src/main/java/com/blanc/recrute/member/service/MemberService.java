@@ -1,18 +1,32 @@
 package com.blanc.recrute.member.service;
 
 import com.blanc.recrute.common.Word;
+import com.blanc.recrute.member.dto.ConfirmValueDTO;
+import com.blanc.recrute.member.dto.IdCheckDTO;
 import com.blanc.recrute.member.dto.LoginDTO;
 import com.blanc.recrute.member.dto.MemberInfoDTO;
+import com.blanc.recrute.member.dto.ValidationDTO;
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface MemberService {
 
-  Integer insertMember(MemberInfoDTO memberDTO);
+  default ValidationDTO memberRegistration(MemberInfoDTO memberDTO) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
+  }
 
-  Word idCheck(String id);
+  default ValidationDTO idCheck(IdCheckDTO idCheckDTO) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
+  }
 
-  boolean loginCheck(LoginDTO loginDTO);
+  default ValidationDTO loginCheck(LoginDTO loginDTO) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
+  }
 
-  String findEmail(String memberId);
+  default ValidationDTO sendAuthEmail(HttpServletRequest request, ConfirmValueDTO confirmValueDTO) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
+  }
 
-  Word authGrantMember(String email);
+  default Word authGrantMember(HttpServletRequest request, String email) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
+  }
 }

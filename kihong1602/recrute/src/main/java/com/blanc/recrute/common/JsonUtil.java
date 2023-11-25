@@ -1,6 +1,6 @@
 package com.blanc.recrute.common;
 
-import com.blanc.recrute.member.dto.InvalidDTO;
+import com.blanc.recrute.member.dto.ValidationDTO;
 import com.google.gson.Gson;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ public class JsonUtil {
     return parsingJson(bodyParsingJson, className);
   }
 
-  public static <T extends InvalidDTO> void sendJSON(HttpServletResponse response, T invalidDTO)
+  public static <T extends ValidationDTO> void sendJSON(HttpServletResponse response, T invalidDTO)
       throws IOException {
     String json = gsonThreadLocal.get()
                                  .toJson(invalidDTO);

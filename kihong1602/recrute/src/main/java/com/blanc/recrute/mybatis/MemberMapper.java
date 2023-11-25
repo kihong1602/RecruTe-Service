@@ -7,13 +7,13 @@ import com.blanc.recrute.member.dto.MemberInfoDTO;
 
 public interface MemberMapper {
 
-  int saveMember(MemberInfoDTO memberInfoDTO);
+  Integer saveMember(MemberInfoDTO memberInfoDTO);
 
   Integer duplicateId(MemberDTO memberDTO);
 
   String findEmailById(MemberDTO memberDTO);
 
-  LoginDTO loginCheck(LoginDTO loginDTO);
+  LoginDTO findPasswordByMemberId(LoginDTO loginDTO);
 
-  int emailAuth(MemberDTO memberDTO);
+  Integer updateMemberAuthentication(MemberDTO memberDTO);
 }

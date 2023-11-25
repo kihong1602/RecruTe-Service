@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "signout", value = "/signout")
-public class SignOutController extends HttpServlet {
+public class LogoutController extends HttpServlet {
 
   private final UserAuthenticator userAuthenticator = new UserAuthenticator();
 
@@ -23,7 +23,7 @@ public class SignOutController extends HttpServlet {
 
   private void depriveAuth(HttpServletRequest request, HttpServletResponse response) {
     if (userAuthenticator.isAuthenticated(request)) {
-      Cookie cookie = userAuthenticator.expireAuthCookie();
+      Cookie cookie = userAuthenticator.expireAuthCookie(request);
       response.addCookie(cookie);
     }
   }
