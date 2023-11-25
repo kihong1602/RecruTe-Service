@@ -8,7 +8,8 @@ public enum Word {
   BLANK("blank"),
   NONE("none"),
   EXIST("exist"),
-  ERROR("error");
+  ERROR("error"),
+  AUTH_KEY("authKey");
 
   private final String description;
 

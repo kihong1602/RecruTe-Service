@@ -1,5 +1,6 @@
 package com.blanc.recrute.mybatis;
 
+import com.blanc.recrute.exam.dto.ApplicantUserInfo;
 import com.blanc.recrute.exam.dto.ExaminationDTO;
 import com.blanc.recrute.exam.dto.RecruitIdDTO;
 import com.blanc.recrute.exam.dto.RecruitInfoDTO;
@@ -13,5 +14,5 @@ public interface ExamMapper {
 
   List<ExaminationDTO> getExaminationById(Integer recruitId);
 
-  List<String> getApplicantEmail(RecruitIdDTO recruitIdDTO);
+  List<ApplicantUserInfo> getApplicantEmail(RecruitIdDTO recruitIdDTO);
 }

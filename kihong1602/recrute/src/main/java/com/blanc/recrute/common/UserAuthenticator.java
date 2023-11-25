@@ -4,16 +4,16 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
-public class Authenticater {
+public class UserAuthenticator {
 
   private Cookie authCookie;
-  private final int HOUR = 60 * 60;
 
 
   public boolean isAuthenticated(HttpServletRequest request) {
     if (request.getCookies() != null) {
       for (Cookie cookie : request.getCookies()) {
-        if (cookie != null && cookie.getName().equals("sid")) {
+        if (cookie != null && cookie.getName()
+                                    .equals("sid")) {
           renewAuthCookie(cookie);
           return true;
         }
@@ -36,7 +36,8 @@ public class Authenticater {
   public void setAuthCookie(HttpServletRequest request, String id) {
     String uuid = String.valueOf(UUID.randomUUID());
     Cookie cookie = new Cookie("sid", uuid);
-    request.getSession().setAttribute(uuid, id);
+    request.getSession()
+           .setAttribute(uuid, id);
     cookie.setHttpOnly(true);
     cookie.setMaxAge(TimeUnit.HOUR.getValue());
     authCookie = cookie;

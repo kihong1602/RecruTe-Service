@@ -1,5 +1,8 @@
 package com.blanc.recrute.recruitment.service;
 
+import static com.blanc.recrute.common.Count.*;
+import static com.blanc.recrute.common.Word.*;
+
 import com.blanc.recrute.common.AptIdFactory;
 import com.blanc.recrute.common.Count;
 import com.blanc.recrute.common.Word;
@@ -34,6 +37,6 @@ public class RecruitService {
                                               .memberId(memberRealId).build();
     int result = RECRUIT_DAO.apply(applyDto);
 
-    return result > Count.ZERO.getNumber() ? Word.SUCCESS : Word.FAIL;
+    return result > ZERO.getNumber() ? SUCCESS : FAIL;
   }
 }

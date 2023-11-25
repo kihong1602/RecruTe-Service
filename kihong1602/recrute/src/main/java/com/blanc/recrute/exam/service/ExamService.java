@@ -6,6 +6,7 @@ import static com.blanc.recrute.common.Word.SUCCESS;
 import com.blanc.recrute.common.EmailService;
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.exam.dao.ExamDAO;
+import com.blanc.recrute.exam.dto.ApplicantUserInfo;
 import com.blanc.recrute.exam.dto.ExaminationDTO;
 import com.blanc.recrute.exam.dto.RecruitIdDTO;
 import com.blanc.recrute.exam.dto.RecruitInfoDTO;
@@ -36,9 +37,9 @@ public class ExamService {
 
   public String sendEmailToApplicant(RecruitIdDTO recruitIdDTO) {
 
-    List<String> emailList = EXAM_DAO.getEmailList(recruitIdDTO);
+    List<ApplicantUserInfo> applicantUserInfoList = EXAM_DAO.getEmailList(recruitIdDTO);
 
-    return emailService.SendExamAuthEmail(emailList, recruitIdDTO);
+    return emailService.sendExamAuthEmail(applicantUserInfoList, recruitIdDTO.getRecruitId());
   }
 
 }

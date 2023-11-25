@@ -29,19 +29,13 @@ public class ExamEmailController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    RecruitIdDTO recruitIdDTO = JsonUtil.JsonParser(request, RecruitIdDTO.class);
+    RecruitIdDTO recruitIdDTO = JsonUtil.jsonParser(request, RecruitIdDTO.class);
 
-//-----------------------------------------------------//
     String result = EXAM_SERVICE.sendEmailToApplicant(recruitIdDTO);
-    //나온 값이 Success 면 AVAILABLE 반환, 아니라면 실패한 이메일 List 를 JSON으로 변환해서 던지기
-    InvalidDTO invalidDTO = null;
-    if (result.equals(Word.SUCCESS.value())) {
-      invalidDTO = new InvalidDTO(Word.AVAILABLE);
-      JsonUtil.sendJSON(response, invalidDTO);
-    } else {
-      JsonUtil.sendJSON(response, invalidDTO);//여기는 수정예정..
-    }
-//-----------------------------------------------------//
 
+    InvalidDTO invalidDTO =
+        result.equals(Word.SUCCESS.value()) ? new InvalidDTO(Word.AVAILABLE) : new InvalidDTO(Word.UNAVAILABLE);
+
+    JsonUtil.sendJSON(response, invalidDTO);
   }
 }

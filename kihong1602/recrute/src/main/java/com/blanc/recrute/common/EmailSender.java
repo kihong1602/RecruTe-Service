@@ -33,7 +33,7 @@ public class EmailSender {
   }
 
   private Properties setProperties() {
-    //호스팅 메일서버 지정, properties 설정
+
     switch (HOST) {
       case NAVER:
         String naver = "smtp.naver.com";
@@ -61,7 +61,7 @@ public class EmailSender {
   }
 
   private Word sendEmail(EmailInfoDTO emailInfoDTO, String title, String content, Properties props) {
-    //권한 등록
+
     Session session = Session.getDefaultInstance(props, new Authenticator() {
       @Override
       protected PasswordAuthentication getPasswordAuthentication() {
@@ -70,7 +70,6 @@ public class EmailSender {
       }
     });
 
-    //메일 작성
     try {
       Message message = new MimeMessage(session);
 

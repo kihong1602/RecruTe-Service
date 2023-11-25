@@ -5,10 +5,15 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public class CookieManager {
 
+  private CookieManager() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static Cookie getCookie(HttpServletRequest request, String cookieName) {
     if (request.getCookies() != null) {
       for (Cookie cookie : request.getCookies()) {
-        if (cookie.getName().equals(cookieName)) {
+        if (cookie.getName()
+                  .equals(cookieName)) {
           return cookie;
         }
       }
@@ -23,6 +28,7 @@ public class CookieManager {
   }
 
   public static String getSessionValue(HttpServletRequest request, Cookie cookie) {
-    return (String) request.getSession().getAttribute(cookie.getValue());
+    return (String) request.getSession()
+                           .getAttribute(cookie.getValue());
   }
 }

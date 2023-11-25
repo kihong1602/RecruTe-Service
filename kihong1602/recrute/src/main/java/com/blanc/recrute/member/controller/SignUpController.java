@@ -4,8 +4,8 @@ import static com.blanc.recrute.common.Count.ZERO;
 import static com.blanc.recrute.common.Word.AVAILABLE;
 import static com.blanc.recrute.common.Word.UNAVAILABLE;
 
-import com.blanc.recrute.common.Authenticater;
 import com.blanc.recrute.common.JsonUtil;
+import com.blanc.recrute.common.UserAuthenticator;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.member.dto.MemberInfoDTO;
@@ -22,13 +22,13 @@ import java.io.IOException;
 public class SignUpController extends HttpServlet {
 
   private final MemberService memberService = new MemberServiceImpl();
-  private final Authenticater authenticater = new Authenticater();
+  private final UserAuthenticator userAuthenticator = new UserAuthenticator();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
-    boolean loginInvalid = authenticater.isAuthenticated(request);
+    boolean loginInvalid = userAuthenticator.isAuthenticated(request);
 
     String path = "";
     if (loginInvalid) {
@@ -47,7 +47,7 @@ public class SignUpController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
-    MemberInfoDTO memberDto = JsonUtil.JsonParser(request, MemberInfoDTO.class);
+    MemberInfoDTO memberDto = JsonUtil.jsonParser(request, MemberInfoDTO.class);
     Integer result = memberService.insertMember(memberDto);
 
     InvalidDTO invalidDTO =

@@ -19,8 +19,8 @@
     useCache="false" flushCache="true">
     select question, answer from exam where recruitment_id = #{recruitId}
   </select>
-  <select id="getApplicantEmail" parameterType="RecruitIdDTO" resultType="String">
-    SELECT m.email
+  <select id="getApplicantEmail" parameterType="RecruitIdDTO" resultType="ApplicantUserInfo">
+    SELECT m.email, a.apt_id as aptId
     FROM applicant a
     JOIN member m ON a.member_id = m.id where recruitment_id = #{recruitId};
   </select>

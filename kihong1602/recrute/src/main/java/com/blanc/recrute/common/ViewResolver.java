@@ -7,12 +7,17 @@ import java.io.IOException;
 
 public class ViewResolver {
 
+  private ViewResolver() {
+    throw new IllegalStateException("Utility class");
+  }
+
   public static String setPath(String viewName) {
     return "/WEB-INF/" + viewName + ".jsp";
   }
 
   public static void render(String path, HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    request.getRequestDispatcher(setPath(path)).forward(request, response);
+    request.getRequestDispatcher(setPath(path))
+           .forward(request, response);
   }
 }

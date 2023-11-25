@@ -16,14 +16,15 @@ public class RecruitDAO {
 
   public DetailDTO findRctDetail(RecruitDTO recruitDTO) {
 
-    DetailDTO detailDTO = null;
+    DetailDTO detailDTO;
 
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
       detailDTO = recruitMapper.findRctDetailById(recruitDTO);
-      
+
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      detailDTO = null;
     }
 
     return detailDTO;
@@ -31,7 +32,7 @@ public class RecruitDAO {
 
   public int apply(ApplyDTO applyDTO) {
 
-    int result = 0;
+    int result;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
 
@@ -39,6 +40,7 @@ public class RecruitDAO {
       sqlSession.commit();
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      result = 0;
     }
 
     return result;
@@ -46,13 +48,14 @@ public class RecruitDAO {
 
   public Integer findMemberId(String memberRealId) {
 
-    Integer id = null;
+    Integer id;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
 
       id = recruitMapper.findIdByMemberId(memberRealId);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      id = null;
     }
 
     return id;

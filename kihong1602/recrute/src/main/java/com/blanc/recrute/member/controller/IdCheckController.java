@@ -25,7 +25,7 @@ public class IdCheckController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
-    IdCheckDTO idCheckDTO = JsonUtil.JsonParser(request, IdCheckDTO.class);
+    IdCheckDTO idCheckDTO = JsonUtil.jsonParser(request, IdCheckDTO.class);
     String memberId = idCheckDTO.getMemberId();
 
     Word check = MEMBER_SERVICE.idCheck(memberId);

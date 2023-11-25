@@ -1,5 +1,9 @@
 package com.blanc.recrute.recruitment.controller;
 
+import static com.blanc.recrute.common.Word.AVAILABLE;
+import static com.blanc.recrute.common.Word.SUCCESS;
+import static com.blanc.recrute.common.Word.UNAVAILABLE;
+
 import com.blanc.recrute.common.CookieManager;
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.URLParser;
@@ -9,13 +13,13 @@ import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.recruitment.dto.ApplyInfoDTO;
 import com.blanc.recrute.recruitment.dto.DetailDTO;
 import com.blanc.recrute.recruitment.service.RecruitService;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 
 @WebServlet(name = "RecruitController", value = "/recruitments/*")
@@ -42,25 +46,20 @@ public class RecruitController extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    //비동기 처리 apt_id 는 회사ID+회사Name+응시순서+@로 입력
-    //외래키 삽입을 위해 MemberDTO 사용해야함
+    ApplyInfoDTO applyInfoDTO = JsonUtil.jsonParser(request, ApplyInfoDTO.class);
 
-    ApplyInfoDTO applyInfoDTO = JsonUtil.JsonParser(request, ApplyInfoDTO.class);
+    Cookie authCookie = CookieManager.getCookie(request, "sid");
 
-    Cookie AuthCookie = CookieManager.getCookie(request, "sid");
-
-    if (AuthCookie != null) {
-
-      String memberId = (String) request.getSession().getAttribute(AuthCookie.getValue());
+    if (authCookie != null) {
+      HttpSession session = request.getSession();
+      String memberId = (String) session.getAttribute(authCookie.getValue());
       Word result = RECRUIT_SERVICE.apply(applyInfoDTO, memberId);
 
       InvalidDTO invalidDTO =
-          result.equals(Word.SUCCESS) ? new InvalidDTO(Word.AVAILABLE)
-              : new InvalidDTO(Word.UNAVAILABLE);
-
+          result.equals(SUCCESS) ? new InvalidDTO(AVAILABLE) : new InvalidDTO(UNAVAILABLE);
 
       JsonUtil.sendJSON(response, invalidDTO);
 
-    }//end of if
+    }
   }
 }

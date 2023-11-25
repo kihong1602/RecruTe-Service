@@ -1,6 +1,7 @@
 package com.blanc.recrute.exam.dao;
 
 import com.blanc.recrute.common.Word;
+import com.blanc.recrute.exam.dto.ApplicantUserInfo;
 import com.blanc.recrute.exam.dto.ExaminationDTO;
 import com.blanc.recrute.exam.dto.RecruitIdDTO;
 import com.blanc.recrute.exam.dto.RecruitInfoDTO;
@@ -64,8 +65,8 @@ public class ExamDAO {
   }
 
 
-  public List<String> getEmailList(RecruitIdDTO recruitIdDTO) {
-    List<String> emailList = null;
+  public List<ApplicantUserInfo> getEmailList(RecruitIdDTO recruitIdDTO) {
+    List<ApplicantUserInfo> emailList = null;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
 

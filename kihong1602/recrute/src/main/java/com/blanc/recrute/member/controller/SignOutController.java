@@ -1,6 +1,6 @@
 package com.blanc.recrute.member.controller;
 
-import com.blanc.recrute.common.Authenticater;
+import com.blanc.recrute.common.UserAuthenticator;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -11,7 +11,7 @@ import java.io.IOException;
 @WebServlet(name = "signout", value = "/signout")
 public class SignOutController extends HttpServlet {
 
-  private final Authenticater authenticater = new Authenticater();
+  private final UserAuthenticator userAuthenticator = new UserAuthenticator();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -22,8 +22,8 @@ public class SignOutController extends HttpServlet {
   }
 
   private void depriveAuth(HttpServletRequest request, HttpServletResponse response) {
-    if (authenticater.isAuthenticated(request)) {
-      Cookie cookie = authenticater.expireAuthCookie();
+    if (userAuthenticator.isAuthenticated(request)) {
+      Cookie cookie = userAuthenticator.expireAuthCookie();
       response.addCookie(cookie);
     }
   }

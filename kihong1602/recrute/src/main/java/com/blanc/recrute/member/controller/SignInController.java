@@ -3,8 +3,8 @@ package com.blanc.recrute.member.controller;
 import static com.blanc.recrute.common.Word.AVAILABLE;
 import static com.blanc.recrute.common.Word.UNAVAILABLE;
 
-import com.blanc.recrute.common.Authenticater;
 import com.blanc.recrute.common.JsonUtil;
+import com.blanc.recrute.common.UserAuthenticator;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.member.dto.InvalidDTO;
 import com.blanc.recrute.member.dto.LoginDTO;
@@ -22,13 +22,13 @@ import java.io.IOException;
 public class SignInController extends HttpServlet {
 
   private final MemberService memberService = new MemberServiceImpl();
-  private final Authenticater authenticater = new Authenticater();
+  private final UserAuthenticator userAuthenticator = new UserAuthenticator();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    if (authenticater.isAuthenticated(request)) {
-      Cookie renewdAuthCookie = authenticater.getAuthCookie();
+    if (userAuthenticator.isAuthenticated(request)) {
+      Cookie renewdAuthCookie = userAuthenticator.getAuthCookie();
       response.addCookie(renewdAuthCookie);
       response.setStatus(HttpServletResponse.SC_FOUND);
       response.sendRedirect("/");
@@ -42,7 +42,7 @@ public class SignInController extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
-    LoginDTO loginDTO = JsonUtil.JsonParser(request, LoginDTO.class);
+    LoginDTO loginDTO = JsonUtil.jsonParser(request, LoginDTO.class);
 
     boolean check = memberService.loginCheck(loginDTO);
     InvalidDTO invalidDTO;
@@ -59,8 +59,8 @@ public class SignInController extends HttpServlet {
   }
 
   private void createAuthCookie(HttpServletRequest request, HttpServletResponse response, LoginDTO loginDTO) {
-    authenticater.setAuthCookie(request, loginDTO.getMemberId());
-    Cookie authCookie = authenticater.getAuthCookie();
+    userAuthenticator.setAuthCookie(request, loginDTO.getMemberId());
+    Cookie authCookie = userAuthenticator.getAuthCookie();
     response.addCookie(authCookie);
   }
 }
