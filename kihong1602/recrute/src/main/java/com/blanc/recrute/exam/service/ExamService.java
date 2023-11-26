@@ -1,45 +1,31 @@
 package com.blanc.recrute.exam.service;
 
-import static com.blanc.recrute.common.Word.FAIL;
-import static com.blanc.recrute.common.Word.SUCCESS;
-
-import com.blanc.recrute.common.EmailService;
-import com.blanc.recrute.common.Word;
-import com.blanc.recrute.exam.dao.ExamDAO;
-import com.blanc.recrute.exam.dto.ApplicantUserInfo;
-import com.blanc.recrute.exam.dto.ExaminationDTO;
+import com.blanc.recrute.exam.dto.AptIdDTO;
 import com.blanc.recrute.exam.dto.RecruitIdDTO;
-import com.blanc.recrute.exam.dto.RecruitInfoDTO;
 import com.blanc.recrute.exam.dto.answer.AnswerData;
-import java.util.List;
+import com.blanc.recrute.member.dto.ValidationDTO;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-public class ExamService {
+public interface ExamService {
 
-  private final ExamDAO EXAM_DAO = new ExamDAO();
-  private final EmailService emailService = new EmailService();
-
-  public RecruitInfoDTO getRecruitContent(String aptId) {
-
-    return aptId != null ? EXAM_DAO.getRecruitContent(aptId) : null;
-
+  default void loadRecruitContentProcess(HttpServletRequest request, HttpServletResponse response) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
   }
 
-  public List<ExaminationDTO> getExamination(Integer examId) {
-    Integer recruitId = EXAM_DAO.getRecruitId(examId);
-
-    return EXAM_DAO.getExamination(recruitId);
+  default ValidationDTO validateExamAuthEmail(HttpServletRequest request, AptIdDTO aptIdDTO) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
   }
 
-  public Word saveExamination(AnswerData answerData) {
-
-    return EXAM_DAO.saveExamination(answerData) != null ? SUCCESS : FAIL;
+  default void loadExamination(HttpServletRequest request) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
   }
 
-  public String sendEmailToApplicant(RecruitIdDTO recruitIdDTO) {
-
-    List<ApplicantUserInfo> applicantUserInfoList = EXAM_DAO.getEmailList(recruitIdDTO);
-
-    return emailService.sendExamAuthEmail(applicantUserInfoList, recruitIdDTO.getRecruitId());
+  default ValidationDTO saveExamination(AnswerData answerData) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
   }
 
+  default ValidationDTO sendEmailToApplicant(RecruitIdDTO recruitIdDTO) {
+    throw new UnsupportedOperationException("Not implemented in the base interface");
+  }
 }

@@ -1,6 +1,8 @@
 package com.blanc.recrute.common;
 
 import static com.blanc.recrute.common.Word.ERROR;
+import static com.blanc.recrute.common.Word.FAIL;
+import static com.blanc.recrute.common.Word.SUCCESS;
 
 import com.blanc.recrute.exam.dto.ApplicantUserInfo;
 import java.util.ArrayList;
@@ -39,6 +41,15 @@ public class EmailService {
     }
   }
 
+  public String examAuthEmailAdapter(String keyword, List<ApplicantUserInfo> applicantUserInfoList, String recruitId) {
+
+    return switch (keyword) {
+      case "sync" -> syncSendExamAuthEmail(applicantUserInfoList, recruitId);
+      case "async" -> sendExamAuthEmail(applicantUserInfoList, recruitId);
+      default -> throw new IllegalArgumentException("잘못된 키워드");
+    };
+  }
+
   public String sendExamAuthEmail(List<ApplicantUserInfo> applicantUserInfoList, String recruitId) {
     final String TITLE = "RecruTe 시험응시 인증메일입니다.";
     final String HEADER = "<h1>[이메일 인증]</h1>";
@@ -59,9 +70,11 @@ public class EmailService {
       CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
         String content =
             HEADER + CONTENT_1 + EMAIL_AUTH_URL + RECRUIT_ID + EMAIL_PARAM + email + APT_ID_PARAM + aptId + CONTENT_2;
-
+        if (email.equals("kihong@gmail.com")) {
+          logger.info(content);
+        }
         Word result = emailSender.mailSend(email, TITLE, content);
-        return result == Word.SUCCESS ? null : email;
+        return result == SUCCESS ? null : email;
 
       }, customExecutor);
       futures.add(future);
@@ -75,9 +88,42 @@ public class EmailService {
                                        .toList();
     long endTime = System.currentTimeMillis();
     long duration = endTime - startTime;
-    String msg = "Duration: " + duration + "ms";
+    String msg = "ASync Duration: " + duration + "ms";
     logger.info(msg);
-    return failedEmails.isEmpty() ? Word.SUCCESS.value() : String.join(", ", failedEmails);
+    return failedEmails.isEmpty() ? SUCCESS.value() : String.join(", ", failedEmails);
+  }
+
+  public String syncSendExamAuthEmail(List<ApplicantUserInfo> applicantUserInfoList, String recruitId) {
+    final String TITLE = "RecruTe 시험응시 인증메일입니다.";
+    final String HEADER = "<h1>[이메일 인증]</h1>";
+    final String CONTENT_1 = "<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>";
+    final String EMAIL_AUTH_URL = "<a href='http://localhost:8080/exam/auth/";
+    final String RECRUIT_ID = recruitId;
+    final String EMAIL_PARAM = "?email=";
+    final String APT_ID_PARAM = "&aptId=";
+    final String CONTENT_2 = "' target='_blank'>이메일 인증 확인</a>";
+    long startTime = System.currentTimeMillis();
+
+    List<String> resultList = new ArrayList<>();
+    for (ApplicantUserInfo userInfo : applicantUserInfoList) {
+      String email = userInfo.getEmail();
+      String aptId = userInfo.getAptId();
+
+      String content =
+          HEADER + CONTENT_1 + EMAIL_AUTH_URL + RECRUIT_ID + EMAIL_PARAM + email + APT_ID_PARAM + aptId + CONTENT_2;
+
+      Word result = emailSender.mailSend(email, TITLE, content);
+      if (result.equals(FAIL)) {
+        resultList.add(email);
+      }
+    }
+    long endTime = System.currentTimeMillis();
+    long duration = endTime - startTime;
+    String msg = "Sync Duration: " + duration + "ms";
+    logger.info(msg);
+
+    return resultList.isEmpty() ? SUCCESS.value() : String.join(", ", resultList);
+
   }
 
 }

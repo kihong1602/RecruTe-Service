@@ -1,40 +1,31 @@
 package com.blanc.recrute.exam.controller;
 
-import static com.blanc.recrute.common.Word.AVAILABLE;
-import static com.blanc.recrute.common.Word.SUCCESS;
-import static com.blanc.recrute.common.Word.UNAVAILABLE;
-
 import com.blanc.recrute.common.JsonUtil;
-import com.blanc.recrute.common.URLParser;
 import com.blanc.recrute.common.ViewResolver;
-import com.blanc.recrute.common.Word;
-import com.blanc.recrute.exam.dto.ExaminationDTO;
 import com.blanc.recrute.exam.dto.answer.AnswerData;
+import com.blanc.recrute.exam.service.ExamQuestionService;
 import com.blanc.recrute.exam.service.ExamService;
-import com.blanc.recrute.member.dto.InvalidDTO;
+import com.blanc.recrute.exam.service.ExamSubmissionService;
+import com.blanc.recrute.member.dto.ValidationDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "exam/*", value = "/exam/*")
 public class ExaminationController extends HttpServlet {
 
-  private final ExamService EXAM_SERVICE = new ExamService();
+  private ExamService examService;
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+    examService = new ExamQuestionService();
+    examService.loadExamination(request);
+
     String path = "exam/examination";
-
-    Integer examId = URLParser.getLastURI(request);
-    List<ExaminationDTO> list = EXAM_SERVICE.getExamination(examId);
-
-    request.setAttribute("ExamList", list);
-    request.setAttribute("size", list.size());
     ViewResolver.render(path, request, response);
   }
 
@@ -45,14 +36,11 @@ public class ExaminationController extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-
+    examService = new ExamSubmissionService();
     AnswerData answerData = JsonUtil.jsonParser(request, AnswerData.class);
 
-    Word result = EXAM_SERVICE.saveExamination(answerData);
+    ValidationDTO validationDTO = examService.saveExamination(answerData);
 
-    InvalidDTO invalidDTO =
-        result.equals(SUCCESS) ? new InvalidDTO(AVAILABLE) : new InvalidDTO(UNAVAILABLE);
-
-    JsonUtil.sendJSON(response, invalidDTO);
+    JsonUtil.sendJSON(response, validationDTO);
   }
 }

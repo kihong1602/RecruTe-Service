@@ -19,39 +19,21 @@ public class ExamDAO {
 
   public RecruitInfoDTO getRecruitContent(String aptId) {
 
-    RecruitInfoDTO examDTO = null;
+    RecruitInfoDTO recruitInfoDto;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
-      examDTO = examMapper.getRecruitTitleByAptId(aptId);
+      recruitInfoDto = examMapper.getRecruitTitleByAptId(aptId);
       sqlSession.commit();
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      recruitInfoDto = null;
     }
-    return examDTO;
-  }
-
-  /*  getExamination()
-   * 현재는 question 과 answer 컬럼이 exam 테이블에 종속되어있으므로 examId로 recruitId 를 조회하고
-   * recruitId를 통해 값을 불러올 것
-   * 리팩토링시 테이블 분리 예정이며 해당시점에는 examId를 통해 question 과 answer 조회예정
-   */
-  public List<ExaminationDTO> getExamination(Integer recruitId) {
-
-    List<ExaminationDTO> examinationDTOList = null;
-    try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
-      ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
-
-      examinationDTOList = examMapper.getExaminationById(recruitId);
-
-    } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-    }
-    return examinationDTOList;
+    return recruitInfoDto;
   }
 
   public Integer getRecruitId(Integer examId) {
 
-    Integer recruitId = null;
+    Integer recruitId;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
 
@@ -59,14 +41,30 @@ public class ExamDAO {
 
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      recruitId = null;
     }
 
     return recruitId;
   }
 
+  public List<ExaminationDTO> getExamination(Integer recruitId) {
+
+    List<ExaminationDTO> examinationDTOList;
+    try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
+      ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
+
+      examinationDTOList = examMapper.getExaminationById(recruitId);
+
+    } catch (Exception e) {
+      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      examinationDTOList = null;
+    }
+    return examinationDTOList;
+  }
+
 
   public List<ApplicantUserInfo> getEmailList(RecruitIdDTO recruitIdDTO) {
-    List<ApplicantUserInfo> emailList = null;
+    List<ApplicantUserInfo> emailList;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
 
@@ -74,12 +72,14 @@ public class ExamDAO {
 
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      emailList = null;
     }
     return emailList;
   }
 
   public String saveExamination(AnswerData answerData) {
-    System.out.println(answerData.toString());
+    String receiveTest = answerData.toString();
+    LOGGER.info(receiveTest);
     return answerData.toString();
   }
 
