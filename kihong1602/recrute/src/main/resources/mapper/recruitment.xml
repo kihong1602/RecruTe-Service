@@ -28,7 +28,7 @@
     WHERE
     r.id = #{id}
   </select>
-  <select id="findIdByMemberId" parameterType="String" resultType="Integer" useCache="false"
+  <select id="findIdByMemberPk" parameterType="String" resultType="Integer" useCache="false"
     flushCache="true">
     select id from member where member_id = #{memberId}
   </select>

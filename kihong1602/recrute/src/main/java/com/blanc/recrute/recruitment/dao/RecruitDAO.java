@@ -46,13 +46,13 @@ public class RecruitDAO {
     return result;
   }
 
-  public Integer findMemberId(String memberRealId) {
+  public Integer findMemberPk(String memberRealId) {
 
     Integer id;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
 
-      id = recruitMapper.findIdByMemberId(memberRealId);
+      id = recruitMapper.findIdByMemberPk(memberRealId);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
       id = null;

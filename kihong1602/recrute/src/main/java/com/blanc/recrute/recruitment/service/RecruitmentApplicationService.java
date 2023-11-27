@@ -29,10 +29,10 @@ public class RecruitmentApplicationService implements RecruitmentService {
     if (authCookie != null) {
       String memberId = getMemberId(request, authCookie);
 
-      Integer memberRealId = recruitDAO.findMemberId(memberId);
+      Integer memberPk = recruitDAO.findMemberPk(memberId);
       String aptId = AptIdFactory.createAptId();
 
-      return applyProcess(applyInfoDTO, aptId, memberRealId);
+      return applyProcess(applyInfoDTO, aptId, memberPk);
     } else {
       log.log(Level.SEVERE, "쿠키가 존재하지않습니다.");
       throw new NullPointerException();
@@ -44,10 +44,10 @@ public class RecruitmentApplicationService implements RecruitmentService {
     return (String) session.getAttribute(authCookie.getValue());
   }
 
-  private ValidationDTO applyProcess(ApplyInfoDTO applyInfoDTO, String aptId, Integer memberRealId) {
+  private ValidationDTO applyProcess(ApplyInfoDTO applyInfoDTO, String aptId, Integer memberPk) {
     ApplyDTO applyDto = new ApplyDTO.Builder().aptId(aptId)
                                               .recruitId(applyInfoDTO.getRecruitId())
-                                              .memberId(memberRealId)
+                                              .memberId(memberPk)
                                               .build();
     Integer result = recruitDAO.apply(applyDto);
 

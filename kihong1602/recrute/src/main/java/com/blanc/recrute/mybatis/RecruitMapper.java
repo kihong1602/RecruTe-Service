@@ -8,7 +8,7 @@ public interface RecruitMapper {
 
   DetailDTO findRctDetailById(RecruitDTO recruitDTO);
 
-  Integer findIdByMemberId(String memberId);
+  Integer findIdByMemberPk(String memberId);
 
   int saveApply(ApplyDTO applyDTO);
 }
