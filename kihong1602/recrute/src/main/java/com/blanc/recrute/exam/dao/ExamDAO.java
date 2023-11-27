@@ -1,5 +1,10 @@
 package com.blanc.recrute.exam.dao;
 
+import static com.blanc.recrute.common.Count.ZERO;
+import static com.blanc.recrute.common.Word.ERROR;
+import static com.blanc.recrute.common.Word.FAIL;
+import static com.blanc.recrute.common.Word.SUCCESS;
+
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.exam.dto.ApplicantUserInfo;
 import com.blanc.recrute.exam.dto.ExaminationDTO;
@@ -25,7 +30,7 @@ public class ExamDAO {
       recruitInfoDto = examMapper.getRecruitTitleByAptId(aptId);
       sqlSession.commit();
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      LOGGER.log(Level.SEVERE, ERROR.value(), e);
       recruitInfoDto = null;
     }
     return recruitInfoDto;
@@ -40,7 +45,7 @@ public class ExamDAO {
       recruitId = examMapper.findRecruitIdByExamId(examId);
 
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      LOGGER.log(Level.SEVERE, ERROR.value(), e);
       recruitId = null;
     }
 
@@ -56,7 +61,7 @@ public class ExamDAO {
       examinationDTOList = examMapper.getExaminationById(recruitId);
 
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      LOGGER.log(Level.SEVERE, ERROR.value(), e);
       examinationDTOList = null;
     }
     return examinationDTOList;
@@ -71,10 +76,23 @@ public class ExamDAO {
       emailList = examMapper.getApplicantEmail(recruitIdDTO);
 
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
+      LOGGER.log(Level.SEVERE, ERROR.value(), e);
       emailList = null;
     }
     return emailList;
+  }
+
+  public Word validationAptId(String aptId) {
+    try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
+      ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
+
+      Integer validationResult = examMapper.validationAptId(aptId);
+
+      return validationResult > ZERO.getNumber() ? SUCCESS : FAIL;
+    } catch (Exception e) {
+      LOGGER.log(Level.SEVERE, ERROR.value(), e);
+      return FAIL;
+    }
   }
 
   public String saveExamination(AnswerData answerData) {

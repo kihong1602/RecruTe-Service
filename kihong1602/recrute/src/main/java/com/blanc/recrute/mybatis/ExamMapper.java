@@ -15,4 +15,6 @@ public interface ExamMapper {
   List<ExaminationDTO> getExaminationById(Integer recruitId);
 
   List<ApplicantUserInfo> getApplicantEmail(RecruitIdDTO recruitIdDTO);
+
+  Integer validationAptId(String aptId);
 }

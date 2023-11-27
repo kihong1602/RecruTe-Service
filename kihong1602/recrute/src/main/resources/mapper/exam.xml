@@ -24,4 +24,7 @@
     FROM applicant a
     JOIN member m ON a.member_id = m.id where recruitment_id = #{recruitId};
   </select>
+  <select id="validationAptId" parameterType="String" resultType="Integer">
+    SELECT count(*) from applicant where apt_id = #{aptId};
+  </select>
 </mapper>
