@@ -26,13 +26,7 @@ public class LoginController extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-
-    if (userAuthenticator.isAuthenticated(request)) {
-      renewAuthCookieAndRedirect(response, userAuthenticator);
-    } else {
-      String path = "member/login/signin-process";
-      ViewResolver.render(path, request, response);
-    }
+    checkAuthenticationStatus(request, response);
   }
 
   @Override
@@ -42,12 +36,21 @@ public class LoginController extends HttpServlet {
     LoginDTO loginDTO = JsonUtil.jsonParser(request, LoginDTO.class);
 
     ValidationDTO validationDTO = memberService.loginCheck(loginDTO);
-    if (validationDTO.getData()
-                     .equals(AVAILABLE.value())) {
+    if (validationDTO.getData().equals(AVAILABLE.value())) {
       createAuthCookie(request, response, loginDTO);
     }
 
     JsonUtil.sendJSON(response, validationDTO);
+  }
+
+  private void checkAuthenticationStatus(HttpServletRequest request, HttpServletResponse response)
+      throws IOException, ServletException {
+    if (userAuthenticator.isAuthenticated(request)) {
+      renewAuthCookieAndRedirect(response, userAuthenticator);
+    } else {
+      String path = "member/login/signin-process";
+      ViewResolver.render(path, request, response);
+    }
   }
 
   private void renewAuthCookieAndRedirect(HttpServletResponse response, UserAuthenticator userAuthenticator)
