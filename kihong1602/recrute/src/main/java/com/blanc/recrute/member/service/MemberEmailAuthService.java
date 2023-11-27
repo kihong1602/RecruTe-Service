@@ -33,34 +33,21 @@ public class MemberEmailAuthService implements MemberService {
                                                      .build();
     String savedEmail = memberDao.findEmail(inputMemberId);
 
-    if (savedEmail != null) {
-      String authKey = String.valueOf(UUID.randomUUID());
-
-      emailService.sendMemberAuthEmail(savedEmail, authKey);
-      session.setAttribute(AUTH_KEY.value(), authKey);
-    } else {
-      throw new NullPointerException("이메일이 존재하지않습니다.");
-    }
+    emailSendProcess(savedEmail, session);
 
     return new ValidationDTO(AVAILABLE);
   }
 
+
   @Override
   public Word authGrantMember(HttpServletRequest request, String email) {
     boolean authKeyValidationResult = validateAuthKey(request);
-    if (authKeyValidationResult) {
-      Integer result = memberDao.authGrantMember(new MemberDTO.Builder().email(email)
-                                                                        .build());
-      if (result == null) {
-        return FAIL;
-      }
 
-    } else {
-      return FAIL;
-    }
+    Word result = memberAuthProcess(email, authKeyValidationResult);
 
-    return SUCCESS;
+    return result == null ? SUCCESS : FAIL;
   }
+
 
   private String getMemberId(HttpServletRequest request, String requestData,
       HttpSession session) {
@@ -81,10 +68,35 @@ public class MemberEmailAuthService implements MemberService {
     return memberId;
   }
 
+  private void emailSendProcess(String savedEmail, HttpSession session) {
+    if (savedEmail != null) {
+      String authKey = String.valueOf(UUID.randomUUID());
+
+      emailService.sendMemberAuthEmail(savedEmail, authKey);
+      session.setAttribute(AUTH_KEY.value(), authKey);
+    } else {
+      throw new NullPointerException("이메일이 존재하지않습니다.");
+    }
+  }
+
   private boolean validateAuthKey(HttpServletRequest request) {
     String authKey = request.getParameter(AUTH_KEY.value());
     HttpSession session = request.getSession(false);
     String sessionAuthKey = (String) session.getAttribute(AUTH_KEY.value());
     return authKey.equals(sessionAuthKey);
+  }
+
+  private Word memberAuthProcess(String email, boolean authKeyValidationResult) {
+    if (authKeyValidationResult) {
+      Integer result = memberDao.authGrantMember(new MemberDTO.Builder().email(email)
+                                                                        .build());
+      if (result == null) {
+        return FAIL;
+      }
+
+    } else {
+      return FAIL;
+    }
+    return null;
   }
 }

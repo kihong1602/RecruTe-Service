@@ -21,8 +21,8 @@ public class IdDuplicationCheckService implements MemberService {
     if (id == null || id.isEmpty()) {
       return new ValidationDTO(BLANK);
     }
-    Integer result = memberDao.idCheck(id);
-    Word keyWord = duplicationCheckResult(result);
+
+    Word keyWord = duplicationResult(id);
 
     return switch (keyWord) {
       case EXIST -> new ValidationDTO(UNAVAILABLE);
@@ -31,7 +31,12 @@ public class IdDuplicationCheckService implements MemberService {
     };
   }
 
-  private Word duplicationCheckResult(Integer result) {
+  private Word duplicationResult(String id) {
+    Integer result = memberDao.idCheck(id);
+    return compareIdCheckResult(result);
+  }
+
+  private Word compareIdCheckResult(Integer result) {
     return result != null && result < 1 ? NONE : EXIST;
   }
 }

@@ -52,7 +52,7 @@ public class EmailSender {
         props.put("mail.smtp.port", 465);
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.ssl.enable", "true");
-        props.put("mail.smtp.ssl.trust", HOST.getName());
+        props.put("mail.smtp.ssl.trust", google);
         return props;
       default:
         return null;
