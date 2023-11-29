@@ -20,15 +20,13 @@ public class JsonUtil {
   public static <T> T jsonParser(HttpServletRequest request, Class<T> className) throws IOException {
     BufferedReader requestReader = request.getReader();
 
-    String bodyParsingJson = requestReader.lines()
-                                          .collect(Collectors.joining());
+    String bodyParsingJson = requestReader.lines().collect(Collectors.joining());
     return parsingJson(bodyParsingJson, className);
   }
 
   public static <T extends ValidationDTO> void sendJSON(HttpServletResponse response, T invalidDTO)
       throws IOException {
-    String json = gsonThreadLocal.get()
-                                 .toJson(invalidDTO);
+    String json = gsonThreadLocal.get().toJson(invalidDTO);
 
     response.setContentType("application/json");
     PrintWriter responseWriter = response.getWriter();
@@ -39,7 +37,6 @@ public class JsonUtil {
   }
 
   private static <T> T parsingJson(String json, Class<T> className) {
-    return gsonThreadLocal.get()
-                          .fromJson(json, className);
+    return gsonThreadLocal.get().fromJson(json, className);
   }
 }

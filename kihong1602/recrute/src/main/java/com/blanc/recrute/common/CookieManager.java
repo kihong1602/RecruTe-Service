@@ -12,8 +12,7 @@ public class CookieManager {
   public static Cookie getCookie(HttpServletRequest request, String cookieName) {
     if (request.getCookies() != null) {
       for (Cookie cookie : request.getCookies()) {
-        if (cookie.getName()
-                  .equals(cookieName)) {
+        if (findCookieByName(cookie, cookieName)) {
           return cookie;
         }
       }
@@ -30,5 +29,10 @@ public class CookieManager {
   public static String getSessionValue(HttpServletRequest request, Cookie cookie) {
     return (String) request.getSession()
                            .getAttribute(cookie.getValue());
+  }
+
+  private static boolean findCookieByName(Cookie cookie, String cookieName) {
+    return cookie.getName()
+                 .equals(cookieName);
   }
 }

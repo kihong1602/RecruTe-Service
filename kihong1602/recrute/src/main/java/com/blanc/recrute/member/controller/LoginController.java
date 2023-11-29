@@ -36,7 +36,7 @@ public class LoginController extends HttpServlet {
     LoginDTO loginDTO = JsonUtil.jsonParser(request, LoginDTO.class);
 
     ValidationDTO validationDTO = memberService.loginCheck(loginDTO);
-    if (validationDTO.getData().equals(AVAILABLE.value())) {
+    if (dtoIsEquals(validationDTO)) {
       createAuthCookie(request, response, loginDTO);
     }
 
@@ -65,5 +65,9 @@ public class LoginController extends HttpServlet {
     userAuthenticator.setAuthCookie(request, loginDTO.getMemberId());
     Cookie authCookie = userAuthenticator.getAuthCookie();
     response.addCookie(authCookie);
+  }
+
+  private boolean dtoIsEquals(ValidationDTO validationDTO) {
+    return validationDTO.getData().equals(AVAILABLE.value());
   }
 }
