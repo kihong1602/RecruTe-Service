@@ -1,24 +1,25 @@
 package com.blanc.recrute.exam.service;
 
 import com.blanc.recrute.exam.dto.AptIdDTO;
+import com.blanc.recrute.exam.dto.ExaminationDTO;
 import com.blanc.recrute.exam.dto.RecruitIdDTO;
+import com.blanc.recrute.exam.dto.RecruitInfoDTO;
 import com.blanc.recrute.exam.dto.answer.AnswerData;
 import com.blanc.recrute.member.dto.ValidationDTO;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 
 public interface ExamService {
 
-  default void loadRecruitContentProcess(HttpServletRequest request, HttpServletResponse response) {
-    throw new UnsupportedOperationException("지원하지 않는 기능입니다.");
-  }
-
-  default ValidationDTO validateExamAuthEmail(HttpServletRequest request, AptIdDTO aptIdDTO) {
+  default RecruitInfoDTO loadRecruitContentProcess(String aptId) {
     return null;
   }
 
-  default void loadExamination(HttpServletRequest request) {
-    throw new UnsupportedOperationException("지원하지 않는 기능입니다.");
+  default ValidationDTO validateExamAuthEmail(String sessionAptId, AptIdDTO aptIdDTO) {
+    return null;
+  }
+
+  default List<ExaminationDTO> loadExamination(Integer examId) {
+    return null;
   }
 
   default ValidationDTO saveExamination(AnswerData answerData) {

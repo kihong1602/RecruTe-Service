@@ -1,21 +1,14 @@
 package com.blanc.recrute.member.service;
 
-import static com.blanc.recrute.common.Word.AUTH_KEY;
 import static com.blanc.recrute.common.Word.AVAILABLE;
 import static com.blanc.recrute.common.Word.FAIL;
 import static com.blanc.recrute.common.Word.SUCCESS;
 
-import com.blanc.recrute.common.CookieManager;
 import com.blanc.recrute.common.EmailService;
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dao.MemberDAO;
-import com.blanc.recrute.member.dto.ConfirmValueDTO;
 import com.blanc.recrute.member.dto.MemberDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import java.util.UUID;
 
 public class MemberEmailAuthService implements MemberService {
 
@@ -23,68 +16,35 @@ public class MemberEmailAuthService implements MemberService {
   private final EmailService emailService = new EmailService();
 
   @Override
-  public ValidationDTO sendAuthEmail(HttpServletRequest request, ConfirmValueDTO confirmValueDTO) {
-    String requestData = confirmValueDTO.getKey();
-
-    HttpSession session = request.getSession(false);
-    String memberId = getMemberId(request, requestData, session);
+  public ValidationDTO sendAuthEmail(String memberId, String authKey) {
 
     MemberDTO inputMemberId = new MemberDTO.Builder().memberId(memberId)
                                                      .build();
+
     String savedEmail = memberDao.findEmail(inputMemberId);
 
-    emailSendProcess(savedEmail, session);
+    emailSendProcess(savedEmail, authKey);
 
     return new ValidationDTO(AVAILABLE);
   }
 
 
   @Override
-  public Word authGrantMember(HttpServletRequest request, String email) {
-    boolean authKeyValidationResult = validateAuthKey(request);
+  public Word authGrantMember(boolean authKeyValidationResult, String email) {
 
     Word result = memberAuthProcess(email, authKeyValidationResult);
 
     return result == null ? SUCCESS : FAIL;
   }
 
-
-  private String getMemberId(HttpServletRequest request, String requestData,
-      HttpSession session) {
-    String memberId;
-    if (requestData.equals("sid")) {
-
-      Cookie authCookie = CookieManager.getCookie(request, requestData);
-
-      if (authCookie != null) {
-        memberId = (String) session.getAttribute(authCookie.getValue());
-      } else {
-        throw new IllegalArgumentException("올바르지않은 인증 정보입니다.");
-      }
-
-    } else {
-      memberId = requestData;
-    }
-    return memberId;
-  }
-
-  private void emailSendProcess(String savedEmail, HttpSession session) {
+  private void emailSendProcess(String savedEmail, String authKey) {
     if (savedEmail != null) {
-      String authKey = String.valueOf(UUID.randomUUID());
-
       emailService.sendMemberAuthEmail(savedEmail, authKey);
-      session.setAttribute(AUTH_KEY.value(), authKey);
     } else {
       throw new NullPointerException("이메일이 존재하지않습니다.");
     }
   }
 
-  private boolean validateAuthKey(HttpServletRequest request) {
-    String authKey = request.getParameter(AUTH_KEY.value());
-    HttpSession session = request.getSession(false);
-    String sessionAuthKey = (String) session.getAttribute(AUTH_KEY.value());
-    return authKey.equals(sessionAuthKey);
-  }
 
   private Word memberAuthProcess(String email, boolean authKeyValidationResult) {
     if (authKeyValidationResult) {
