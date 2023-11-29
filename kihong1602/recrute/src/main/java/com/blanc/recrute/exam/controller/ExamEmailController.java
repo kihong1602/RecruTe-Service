@@ -4,7 +4,6 @@ import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.exam.dto.RecruitIdDTO;
 import com.blanc.recrute.exam.service.ExamEmailSenderService;
-import com.blanc.recrute.exam.service.ExamService;
 import com.blanc.recrute.member.dto.ValidationDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,7 +15,7 @@ import java.io.IOException;
 @WebServlet(name = "exam/email", value = "/exam/email/*")
 public class ExamEmailController extends HttpServlet {
 
-  private final ExamService examService = new ExamEmailSenderService();
+  private final ExamEmailSenderService examService = new ExamEmailSenderService();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)

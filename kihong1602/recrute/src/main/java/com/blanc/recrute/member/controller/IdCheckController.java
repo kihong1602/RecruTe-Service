@@ -3,8 +3,7 @@ package com.blanc.recrute.member.controller;
 import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.member.dto.IdCheckDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
-import com.blanc.recrute.member.service.IdDuplicationCheckService;
-import com.blanc.recrute.member.service.MemberService;
+import com.blanc.recrute.member.service.RegistrationService;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +13,7 @@ import java.io.IOException;
 @WebServlet(name = "check-id", value = "/check-id")
 public class IdCheckController extends HttpServlet {
 
-  private final MemberService memberService = new IdDuplicationCheckService();
+  private final RegistrationService memberService = new RegistrationService();
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -22,7 +21,7 @@ public class IdCheckController extends HttpServlet {
 
     IdCheckDTO idCheckDTO = JsonUtil.jsonParser(request, IdCheckDTO.class);
 
-    ValidationDTO validationDTO = memberService.idCheck(idCheckDTO);
+    ValidationDTO validationDTO = memberService.idDuplicateCheck(idCheckDTO);
 
     JsonUtil.sendJSON(response, validationDTO);
   }

@@ -5,9 +5,7 @@ import com.blanc.recrute.common.URLParser;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.exam.dto.ExaminationDTO;
 import com.blanc.recrute.exam.dto.answer.AnswerData;
-import com.blanc.recrute.exam.service.ExamQuestionService;
-import com.blanc.recrute.exam.service.ExamService;
-import com.blanc.recrute.exam.service.ExamSubmissionService;
+import com.blanc.recrute.exam.service.ExamManagementService;
 import com.blanc.recrute.member.dto.ValidationDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -20,12 +18,12 @@ import java.util.List;
 @WebServlet(name = "exam/*", value = "/exam/*")
 public class ExaminationController extends HttpServlet {
 
-  private ExamService examService;
+  private ExamManagementService examService = new ExamManagementService();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    examService = new ExamQuestionService();
+
     Integer examId = URLParser.getLastURI(request);
 
     List<ExaminationDTO> examList = examService.loadExamination(examId);
@@ -44,7 +42,7 @@ public class ExaminationController extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    examService = new ExamSubmissionService();
+
     AnswerData answerData = JsonUtil.jsonParser(request, AnswerData.class);
 
     ValidationDTO validationDTO = examService.saveExamination(answerData);

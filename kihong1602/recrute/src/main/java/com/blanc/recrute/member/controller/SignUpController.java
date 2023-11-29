@@ -5,8 +5,7 @@ import com.blanc.recrute.common.UserAuthenticator;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.member.dto.MemberInfoDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
-import com.blanc.recrute.member.service.MemberRegistrationService;
-import com.blanc.recrute.member.service.MemberService;
+import com.blanc.recrute.member.service.RegistrationService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +16,7 @@ import java.io.IOException;
 @WebServlet(name = "signup", value = "/signup")
 public class SignUpController extends HttpServlet {
 
-  private final MemberService memberService = new MemberRegistrationService();
+  private final RegistrationService memberService = new RegistrationService();
   private final UserAuthenticator userAuthenticator = new UserAuthenticator();
 
   @Override

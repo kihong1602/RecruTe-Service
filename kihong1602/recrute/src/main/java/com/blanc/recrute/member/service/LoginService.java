@@ -8,13 +8,13 @@ import com.blanc.recrute.member.dto.LoginDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
 import org.mindrot.jbcrypt.BCrypt;
 
-public class MemberLoginService implements MemberService {
+public class LoginService {
 
   private final MemberDAO memberDao = new MemberDAO();
 
-  @Override
-  public ValidationDTO loginCheck(LoginDTO inputLoginDto) {
-    LoginDTO savedLoginDto = memberDao.loginCheck(inputLoginDto);
+
+  public ValidationDTO loginRequest(LoginDTO inputLoginDto) {
+    LoginDTO savedLoginDto = memberDao.loginRequest(inputLoginDto);
 
     if (savedLoginDto == null) {
       throw new NullPointerException("존재하지 않는 아이디입니다.");

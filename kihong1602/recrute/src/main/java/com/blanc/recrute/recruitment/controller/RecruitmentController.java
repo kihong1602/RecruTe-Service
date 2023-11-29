@@ -7,8 +7,6 @@ import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.member.dto.ValidationDTO;
 import com.blanc.recrute.recruitment.dto.ApplyInfoDTO;
 import com.blanc.recrute.recruitment.dto.DetailDTO;
-import com.blanc.recrute.recruitment.service.RecruitmentApplicationService;
-import com.blanc.recrute.recruitment.service.RecruitmentDetailService;
 import com.blanc.recrute.recruitment.service.RecruitmentService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,12 +20,11 @@ import java.io.IOException;
 @WebServlet(name = "RecruitController", value = "/recruitments/*")
 public class RecruitmentController extends HttpServlet {
 
-  private RecruitmentService recruitmentService;
+  private RecruitmentService recruitmentService = new RecruitmentService();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    recruitmentService = new RecruitmentDetailService();
 
     Integer recruitId = URLParser.getLastURI(request);
 
@@ -40,7 +37,7 @@ public class RecruitmentController extends HttpServlet {
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    recruitmentService = new RecruitmentApplicationService();
+
     ApplyInfoDTO applyInfoDTO = JsonUtil.jsonParser(request, ApplyInfoDTO.class);
 
     String memberId = getMemberId(request);

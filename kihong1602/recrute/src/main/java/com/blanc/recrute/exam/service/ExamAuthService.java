@@ -11,11 +11,11 @@ import com.blanc.recrute.exam.dto.AptIdDTO;
 import com.blanc.recrute.exam.dto.RecruitInfoDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
 
-public class ExamAuthorizationService implements ExamService {
+public class ExamAuthService {
 
   private final ExamDAO examDAO = new ExamDAO();
 
-  @Override
+
   public RecruitInfoDTO loadRecruitContentProcess(String aptId) {
 
     RecruitInfoDTO recruitInfoDTO = examDAO.getRecruitContent(aptId);
@@ -27,7 +27,7 @@ public class ExamAuthorizationService implements ExamService {
 
   }
 
-  @Override
+
   public ValidationDTO validateExamAuthEmail(String sessionAptId, AptIdDTO aptIdDTO) {
 
     if (sessionAptId != null) {

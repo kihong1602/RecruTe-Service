@@ -7,8 +7,7 @@ import com.blanc.recrute.common.JsonUtil;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.exam.dto.AptIdDTO;
 import com.blanc.recrute.exam.dto.RecruitInfoDTO;
-import com.blanc.recrute.exam.service.ExamAuthorizationService;
-import com.blanc.recrute.exam.service.ExamService;
+import com.blanc.recrute.exam.service.ExamAuthService;
 import com.blanc.recrute.member.dto.ValidationDTO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,7 +22,7 @@ import java.util.UUID;
 @WebServlet(name = "exam", value = "/exam/auth/*")
 public class ExamAuthController extends HttpServlet {
 
-  private final ExamService examService = new ExamAuthorizationService();
+  private final ExamAuthService examService = new ExamAuthService();
 
   private static final String EXAM_AUTH = "examAuth";
 

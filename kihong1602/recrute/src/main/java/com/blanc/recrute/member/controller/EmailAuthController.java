@@ -8,8 +8,7 @@ import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dto.ConfirmValueDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
-import com.blanc.recrute.member.service.MemberEmailAuthService;
-import com.blanc.recrute.member.service.MemberService;
+import com.blanc.recrute.member.service.EmailAuthService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -21,9 +20,9 @@ import java.io.IOException;
 import java.util.UUID;
 
 @WebServlet(name = "email", value = "/email")
-public class EmailAuthorizationController extends HttpServlet {
+public class EmailAuthController extends HttpServlet {
 
-  private final MemberService memberService = new MemberEmailAuthService();
+  private final EmailAuthService memberService = new EmailAuthService();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)

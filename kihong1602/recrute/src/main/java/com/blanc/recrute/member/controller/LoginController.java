@@ -7,8 +7,7 @@ import com.blanc.recrute.common.UserAuthenticator;
 import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.member.dto.LoginDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
-import com.blanc.recrute.member.service.MemberLoginService;
-import com.blanc.recrute.member.service.MemberService;
+import com.blanc.recrute.member.service.LoginService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -20,7 +19,7 @@ import java.io.IOException;
 @WebServlet(name = "signin", value = "/signin")
 public class LoginController extends HttpServlet {
 
-  private final MemberService memberService = new MemberLoginService();
+  private final LoginService memberService = new LoginService();
   private final UserAuthenticator userAuthenticator = new UserAuthenticator();
 
   @Override
@@ -35,7 +34,7 @@ public class LoginController extends HttpServlet {
 
     LoginDTO loginDTO = JsonUtil.jsonParser(request, LoginDTO.class);
 
-    ValidationDTO validationDTO = memberService.loginCheck(loginDTO);
+    ValidationDTO validationDTO = memberService.loginRequest(loginDTO);
     if (dtoIsEquals(validationDTO)) {
       createAuthCookie(request, response, loginDTO);
     }
