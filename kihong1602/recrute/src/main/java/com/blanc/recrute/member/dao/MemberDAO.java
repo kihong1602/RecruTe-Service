@@ -35,7 +35,7 @@ public class MemberDAO {
   }
 
 
-  public Integer insertMember(MemberInfoDTO memberDTO) {
+  public Integer saveMember(MemberInfoDTO memberDTO) {
     Integer result;
 
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
@@ -53,7 +53,7 @@ public class MemberDAO {
   }
 
 
-  public LoginDTO loginCheck(LoginDTO loginDTO) {
+  public LoginDTO loginRequest(LoginDTO loginDTO) {
     LoginDTO savedLoginDto;
 
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
@@ -86,7 +86,7 @@ public class MemberDAO {
   }
 
 
-  public Integer authGrantMember(MemberDTO memberDTO) {
+  public Integer memberAuthentication(MemberDTO memberDTO) {
     Integer result;
 
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
