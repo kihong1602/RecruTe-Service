@@ -10,22 +10,22 @@ import jakarta.servlet.http.HttpServletResponse;
 public interface ExamService {
 
   default void loadRecruitContentProcess(HttpServletRequest request, HttpServletResponse response) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    throw new UnsupportedOperationException("지원하지 않는 기능입니다.");
   }
 
   default ValidationDTO validateExamAuthEmail(HttpServletRequest request, AptIdDTO aptIdDTO) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    return null;
   }
 
   default void loadExamination(HttpServletRequest request) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    throw new UnsupportedOperationException("지원하지 않는 기능입니다.");
   }
 
   default ValidationDTO saveExamination(AnswerData answerData) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    return null;
   }
 
   default ValidationDTO sendEmailToApplicant(RecruitIdDTO recruitIdDTO) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    return null;
   }
 }

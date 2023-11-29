@@ -11,22 +11,22 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface MemberService {
 
   default ValidationDTO memberRegistration(MemberInfoDTO memberDTO) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    return null;
   }
 
   default ValidationDTO idCheck(IdCheckDTO idCheckDTO) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    return null;
   }
 
   default ValidationDTO loginCheck(LoginDTO loginDTO) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    return null;
   }
 
   default ValidationDTO sendAuthEmail(HttpServletRequest request, ConfirmValueDTO confirmValueDTO) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    return null;
   }
 
   default Word authGrantMember(HttpServletRequest request, String email) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    return null;
   }
 }

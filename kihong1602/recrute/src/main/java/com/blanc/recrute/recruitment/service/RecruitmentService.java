@@ -7,10 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface RecruitmentService {
 
   default void findRecruitmentDetailInfo(HttpServletRequest request) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    throw new UnsupportedOperationException("지원하지 않는 기능입니다.");
   }
 
   default ValidationDTO applyRecruitment(HttpServletRequest request, ApplyInfoDTO applyInfoDTO) {
-    throw new UnsupportedOperationException("Not implemented in the base interface");
+    return null;
   }
 }
