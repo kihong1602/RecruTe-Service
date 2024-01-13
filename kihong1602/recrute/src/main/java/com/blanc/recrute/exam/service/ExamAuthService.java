@@ -6,14 +6,14 @@ import static com.blanc.recrute.common.Word.SUCCESS;
 import static com.blanc.recrute.common.Word.UNAVAILABLE;
 
 import com.blanc.recrute.common.Word;
-import com.blanc.recrute.exam.dao.ExamDAO;
+import com.blanc.recrute.exam.dao.ExamDao;
 import com.blanc.recrute.exam.dto.AptIdDTO;
 import com.blanc.recrute.exam.dto.RecruitInfoDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
 
 public class ExamAuthService {
 
-  private final ExamDAO examDAO = new ExamDAO();
+  private final ExamDao examDAO = new ExamDao();
 
 
   public RecruitInfoDTO loadRecruitContentProcess(String aptId) {

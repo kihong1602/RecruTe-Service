@@ -10,9 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.ibatis.session.SqlSession;
 
-public class MemberDAO {
+public class MenberDao {
 
-  private final Logger LOGGER = Logger.getLogger(MemberDAO.class.getName());
+  private final Logger LOGGER = Logger.getLogger(MenberDao.class.getName());
 
 
   public Integer idCheck(String id) {
@@ -46,7 +46,7 @@ public class MemberDAO {
       return memberMapper.findPasswordByMemberId(loginDTO);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      return  null;
+      return null;
     }
   }
 

@@ -10,9 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.ibatis.session.SqlSession;
 
-public class RecruitDAO {
+public class RecruitDao {
 
-  private final Logger LOGGER = Logger.getLogger(RecruitDAO.class.getName());
+  private final Logger LOGGER = Logger.getLogger(RecruitDao.class.getName());
 
   public DetailDTO findRctDetail(RecruitDTO recruitDTO) {
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {

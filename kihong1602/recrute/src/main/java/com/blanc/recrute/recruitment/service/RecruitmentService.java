@@ -4,9 +4,9 @@ import static com.blanc.recrute.common.Count.ZERO;
 import static com.blanc.recrute.common.Word.AVAILABLE;
 import static com.blanc.recrute.common.Word.UNAVAILABLE;
 
-import com.blanc.recrute.common.AptIdFactory;
+import com.blanc.recrute.common.util.AptIdCreator;
 import com.blanc.recrute.member.dto.ValidationDTO;
-import com.blanc.recrute.recruitment.dao.RecruitDAO;
+import com.blanc.recrute.recruitment.dao.RecruitDao;
 import com.blanc.recrute.recruitment.dto.ApplyDTO;
 import com.blanc.recrute.recruitment.dto.ApplyInfoDTO;
 import com.blanc.recrute.recruitment.dto.DetailDTO;
@@ -14,12 +14,12 @@ import com.blanc.recrute.recruitment.dto.RecruitDTO;
 
 public class RecruitmentService {
 
-  private final RecruitDAO recruitDAO = new RecruitDAO();
+  private final RecruitDao recruitDAO = new RecruitDao();
 
 
   public ValidationDTO applyRecruitment(String memberId, ApplyInfoDTO applyInfoDTO) {
     Integer memberPk = recruitDAO.findMemberPk(memberId);
-    String aptId = AptIdFactory.createAptId();
+    String aptId = AptIdCreator.createAptId();
 
     return applyProcess(applyInfoDTO, aptId, memberPk);
   }

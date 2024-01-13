@@ -1,4 +1,4 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.common.util;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

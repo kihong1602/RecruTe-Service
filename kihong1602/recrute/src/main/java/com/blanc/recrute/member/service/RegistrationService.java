@@ -8,21 +8,21 @@ import static com.blanc.recrute.common.Word.NONE;
 import static com.blanc.recrute.common.Word.UNAVAILABLE;
 
 import com.blanc.recrute.common.Word;
-import com.blanc.recrute.member.dao.MemberDAO;
+import com.blanc.recrute.member.dao.MenberDao;
 import com.blanc.recrute.member.dto.IdCheckDTO;
 import com.blanc.recrute.member.dto.MemberInfoDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
 
 public class RegistrationService {
 
-  private final MemberDAO memberDao = new MemberDAO();
+  private final MenberDao menberDao = new MenberDao();
 
 
   public ValidationDTO memberRegistration(MemberInfoDTO memberDTO) {
 
     memberDTO.passwordEncoding();
 
-    Integer result = memberDao.saveMember(memberDTO);
+    Integer result = menberDao.saveMember(memberDTO);
 
     return result > ZERO.getNumber() ? new ValidationDTO(AVAILABLE) : new ValidationDTO(UNAVAILABLE);
   }
@@ -44,7 +44,7 @@ public class RegistrationService {
   }
 
   private Word checkResult(String id) {
-    Integer result = memberDao.idCheck(id);
+    Integer result = menberDao.idCheck(id);
     return compareIdCheckResult(result);
   }
 

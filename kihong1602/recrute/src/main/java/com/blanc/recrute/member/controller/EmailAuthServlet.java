@@ -2,10 +2,10 @@ package com.blanc.recrute.member.controller;
 
 import static com.blanc.recrute.common.Word.AUTH_KEY;
 
-import com.blanc.recrute.common.CookieManager;
-import com.blanc.recrute.common.JsonUtil;
-import com.blanc.recrute.common.ViewResolver;
 import com.blanc.recrute.common.Word;
+import com.blanc.recrute.common.util.CookieManager;
+import com.blanc.recrute.common.util.JsonUtil;
+import com.blanc.recrute.common.util.ViewResolver;
 import com.blanc.recrute.member.dto.ConfirmValueDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
 import com.blanc.recrute.member.service.EmailAuthService;
@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @WebServlet(name = "email", value = "/email")
-public class EmailAuthController extends HttpServlet {
+public class EmailAuthServlet extends HttpServlet {
 
   private final EmailAuthService memberService = new EmailAuthService();
 

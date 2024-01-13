@@ -2,9 +2,9 @@ package com.blanc.recrute.exam.controller;
 
 import static com.blanc.recrute.common.TimeUnit.HOUR;
 
-import com.blanc.recrute.common.CookieManager;
-import com.blanc.recrute.common.JsonUtil;
-import com.blanc.recrute.common.ViewResolver;
+import com.blanc.recrute.common.util.CookieManager;
+import com.blanc.recrute.common.util.JsonUtil;
+import com.blanc.recrute.common.util.ViewResolver;
 import com.blanc.recrute.exam.dto.AptIdDTO;
 import com.blanc.recrute.exam.dto.RecruitInfoDTO;
 import com.blanc.recrute.exam.service.ExamAuthService;
@@ -20,11 +20,10 @@ import java.io.IOException;
 import java.util.UUID;
 
 @WebServlet(name = "exam", value = "/exam/auth/*")
-public class ExamAuthController extends HttpServlet {
-
-  private final ExamAuthService examService = new ExamAuthService();
+public class ExamAuthServlet extends HttpServlet {
 
   private static final String EXAM_AUTH = "examAuth";
+  private final ExamAuthService examService = new ExamAuthService();
 
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)

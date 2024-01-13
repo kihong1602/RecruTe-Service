@@ -1,8 +1,10 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.common.email;
 
 import static com.blanc.recrute.common.Word.ERROR;
 import static com.blanc.recrute.common.Word.SUCCESS;
 
+import com.blanc.recrute.common.Host;
+import com.blanc.recrute.common.Word;
 import com.blanc.recrute.exam.dto.ApplicantUserInfo;
 import java.util.ArrayList;
 import java.util.List;

@@ -19,9 +19,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.ibatis.session.SqlSession;
 
-public class ExamDAO {
+public class ExamDao {
 
-  private final Logger LOGGER = Logger.getLogger(ExamDAO.class.getName());
+  private final Logger LOGGER = Logger.getLogger(ExamDao.class.getName());
 
   public RecruitInfoDTO getRecruitContent(String aptId) {
 

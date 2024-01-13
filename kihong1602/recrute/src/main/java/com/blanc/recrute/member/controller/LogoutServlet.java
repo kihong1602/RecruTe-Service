@@ -1,6 +1,6 @@
 package com.blanc.recrute.member.controller;
 
-import com.blanc.recrute.common.UserAuthenticator;
+import com.blanc.recrute.common.util.UserAuthenticator;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "signout", value = "/signout")
-public class LogoutController extends HttpServlet {
+public class LogoutServlet extends HttpServlet {
 
   private final UserAuthenticator userAuthenticator = new UserAuthenticator();
 

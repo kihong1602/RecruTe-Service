@@ -1,8 +1,8 @@
 package com.blanc.recrute.member.controller;
 
-import com.blanc.recrute.common.JsonUtil;
-import com.blanc.recrute.common.UserAuthenticator;
-import com.blanc.recrute.common.ViewResolver;
+import com.blanc.recrute.common.util.JsonUtil;
+import com.blanc.recrute.common.util.UserAuthenticator;
+import com.blanc.recrute.common.util.ViewResolver;
 import com.blanc.recrute.member.dto.MemberInfoDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
 import com.blanc.recrute.member.service.RegistrationService;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "signup", value = "/signup")
-public class SignUpController extends HttpServlet {
+public class SignUpServlet extends HttpServlet {
 
   private final RegistrationService memberService = new RegistrationService();
   private final UserAuthenticator userAuthenticator = new UserAuthenticator();

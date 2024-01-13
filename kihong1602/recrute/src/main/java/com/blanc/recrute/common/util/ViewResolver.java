@@ -1,4 +1,4 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.common.util;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

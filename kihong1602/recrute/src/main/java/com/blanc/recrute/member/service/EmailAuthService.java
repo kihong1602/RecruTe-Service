@@ -4,15 +4,15 @@ import static com.blanc.recrute.common.Word.AVAILABLE;
 import static com.blanc.recrute.common.Word.FAIL;
 import static com.blanc.recrute.common.Word.SUCCESS;
 
-import com.blanc.recrute.common.EmailService;
 import com.blanc.recrute.common.Word;
-import com.blanc.recrute.member.dao.MemberDAO;
+import com.blanc.recrute.common.email.EmailService;
+import com.blanc.recrute.member.dao.MenberDao;
 import com.blanc.recrute.member.dto.MemberDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
 
 public class EmailAuthService {
 
-  private final MemberDAO memberDao = new MemberDAO();
+  private final MenberDao menberDao = new MenberDao();
   private final EmailService emailService = new EmailService();
 
 
@@ -21,7 +21,7 @@ public class EmailAuthService {
     MemberDTO inputMemberId = new MemberDTO.Builder().memberId(memberId)
                                                      .build();
 
-    String savedEmail = memberDao.findEmail(inputMemberId);
+    String savedEmail = menberDao.findEmail(inputMemberId);
 
     emailSendProcess(savedEmail, authKey);
 
@@ -47,7 +47,7 @@ public class EmailAuthService {
 
   private Word memberAuthProcess(String email, boolean authKeyValidationResult) {
     if (authKeyValidationResult) {
-      Integer result = memberDao.memberAuthentication(new MemberDTO.Builder().email(email)
+      Integer result = menberDao.memberAuthentication(new MemberDTO.Builder().email(email)
                                                                              .build());
       if (result == null) {
         return FAIL;

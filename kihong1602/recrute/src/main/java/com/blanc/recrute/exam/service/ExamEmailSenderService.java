@@ -1,8 +1,8 @@
 package com.blanc.recrute.exam.service;
 
-import com.blanc.recrute.common.EmailService;
 import com.blanc.recrute.common.Word;
-import com.blanc.recrute.exam.dao.ExamDAO;
+import com.blanc.recrute.common.email.EmailService;
+import com.blanc.recrute.exam.dao.ExamDao;
 import com.blanc.recrute.exam.dto.ApplicantUserInfo;
 import com.blanc.recrute.exam.dto.RecruitIdDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ExamEmailSenderService {
 
-  private final ExamDAO examDAO = new ExamDAO();
+  private final ExamDao examDAO = new ExamDao();
   private final EmailService emailService = new EmailService();
 
 

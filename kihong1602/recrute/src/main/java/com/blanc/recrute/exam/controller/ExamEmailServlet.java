@@ -1,7 +1,7 @@
 package com.blanc.recrute.exam.controller;
 
-import com.blanc.recrute.common.JsonUtil;
-import com.blanc.recrute.common.ViewResolver;
+import com.blanc.recrute.common.util.JsonUtil;
+import com.blanc.recrute.common.util.ViewResolver;
 import com.blanc.recrute.exam.dto.RecruitIdDTO;
 import com.blanc.recrute.exam.service.ExamEmailSenderService;
 import com.blanc.recrute.member.dto.ValidationDTO;
@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "exam/email", value = "/exam/email/*")
-public class ExamEmailController extends HttpServlet {
+public class ExamEmailServlet extends HttpServlet {
 
   private final ExamEmailSenderService examService = new ExamEmailSenderService();
 

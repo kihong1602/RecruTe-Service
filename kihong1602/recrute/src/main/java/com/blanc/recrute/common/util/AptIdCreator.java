@@ -1,10 +1,10 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.common.util;
 
 import java.util.UUID;
 
-public class AptIdFactory {
+public class AptIdCreator {
 
-  private AptIdFactory() {
+  private AptIdCreator() {
     throw new IllegalStateException("Utility class");
   }
 

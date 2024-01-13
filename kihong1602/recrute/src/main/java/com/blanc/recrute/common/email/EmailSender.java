@@ -1,9 +1,11 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.common.email;
 
 import static com.blanc.recrute.common.Word.ERROR;
 import static com.blanc.recrute.common.Word.FAIL;
 import static com.blanc.recrute.common.Word.SUCCESS;
 
+import com.blanc.recrute.common.Host;
+import com.blanc.recrute.common.Word;
 import com.blanc.recrute.member.dto.EmailInfoDTO;
 import jakarta.mail.Authenticator;
 import jakarta.mail.Message;

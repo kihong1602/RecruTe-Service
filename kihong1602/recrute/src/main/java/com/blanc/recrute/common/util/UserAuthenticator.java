@@ -1,7 +1,8 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.common.util;
 
 import static com.blanc.recrute.common.TimeUnit.HOUR;
 
+import com.blanc.recrute.common.Count;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

@@ -1,8 +1,8 @@
 package com.blanc.recrute.exam.controller;
 
-import com.blanc.recrute.common.JsonUtil;
-import com.blanc.recrute.common.URLParser;
-import com.blanc.recrute.common.ViewResolver;
+import com.blanc.recrute.common.util.JsonUtil;
+import com.blanc.recrute.common.util.URLParser;
+import com.blanc.recrute.common.util.ViewResolver;
 import com.blanc.recrute.exam.dto.ExaminationDTO;
 import com.blanc.recrute.exam.dto.answer.AnswerData;
 import com.blanc.recrute.exam.service.ExamManagementService;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "exam/*", value = "/exam/*")
-public class ExaminationController extends HttpServlet {
+public class ExaminationServlet extends HttpServlet {
 
   private ExamManagementService examService = new ExamManagementService();
 

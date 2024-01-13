@@ -1,4 +1,4 @@
-package com.blanc.recrute.common;
+package com.blanc.recrute.common.util;
 
 import com.blanc.recrute.member.dto.ValidationDTO;
 import com.google.gson.Gson;
@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 
 public class JsonUtil {
 
+  private static final ThreadLocal<Gson> gsonThreadLocal = ThreadLocal.withInitial(Gson::new);
+
   private JsonUtil() {
     throw new IllegalStateException("Utility class");
   }
-
-  private static final ThreadLocal<Gson> gsonThreadLocal = ThreadLocal.withInitial(Gson::new);
 
   public static <T> T jsonParser(HttpServletRequest request, Class<T> className) throws IOException {
     BufferedReader requestReader = request.getReader();

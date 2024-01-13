@@ -2,9 +2,9 @@ package com.blanc.recrute.member.controller;
 
 import static com.blanc.recrute.common.Word.AVAILABLE;
 
-import com.blanc.recrute.common.JsonUtil;
-import com.blanc.recrute.common.UserAuthenticator;
-import com.blanc.recrute.common.ViewResolver;
+import com.blanc.recrute.common.util.JsonUtil;
+import com.blanc.recrute.common.util.UserAuthenticator;
+import com.blanc.recrute.common.util.ViewResolver;
 import com.blanc.recrute.member.dto.LoginDTO;
 import com.blanc.recrute.member.dto.ValidationDTO;
 import com.blanc.recrute.member.service.LoginService;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(name = "signin", value = "/signin")
-public class LoginController extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
   private final LoginService memberService = new LoginService();
   private final UserAuthenticator userAuthenticator = new UserAuthenticator();
