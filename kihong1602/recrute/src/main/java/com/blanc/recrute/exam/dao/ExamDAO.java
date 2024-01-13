@@ -13,6 +13,7 @@ import com.blanc.recrute.exam.dto.RecruitInfoDTO;
 import com.blanc.recrute.exam.dto.answer.AnswerData;
 import com.blanc.recrute.mybatis.ExamMapper;
 import com.blanc.recrute.mybatis.MybatisConnectionFactory;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,70 +25,50 @@ public class ExamDAO {
 
   public RecruitInfoDTO getRecruitContent(String aptId) {
 
-    RecruitInfoDTO recruitInfoDto;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
-      recruitInfoDto = examMapper.getRecruitTitleByAptId(aptId);
-      sqlSession.commit();
+      return examMapper.getRecruitTitleByAptId(aptId);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, ERROR.value(), e);
-      recruitInfoDto = null;
+      return null;
     }
-    return recruitInfoDto;
   }
 
   public Integer getRecruitId(Integer examId) {
-
-    Integer recruitId;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
-
-      recruitId = examMapper.findRecruitIdByExamId(examId);
-
+      return examMapper.findRecruitIdByExamId(examId);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, ERROR.value(), e);
-      recruitId = null;
+      return null;
     }
-
-    return recruitId;
   }
 
   public List<ExaminationDTO> getExamination(Integer recruitId) {
-
-    List<ExaminationDTO> examinationDTOList;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
-
-      examinationDTOList = examMapper.getExaminationById(recruitId);
-
+      return examMapper.getExaminationById(recruitId);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, ERROR.value(), e);
-      examinationDTOList = null;
+      return Collections.emptyList();
     }
-    return examinationDTOList;
   }
 
 
   public List<ApplicantUserInfo> getEmailList(RecruitIdDTO recruitIdDTO) {
-    List<ApplicantUserInfo> emailList;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
-
-      emailList = examMapper.getApplicantEmail(recruitIdDTO);
-
+      return examMapper.getApplicantEmail(recruitIdDTO);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, ERROR.value(), e);
-      emailList = null;
+      return Collections.emptyList();
     }
-    return emailList;
   }
 
   public Word validationAptId(String aptId) {
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       ExamMapper examMapper = sqlSession.getMapper(ExamMapper.class);
-
       Integer validationResult = examMapper.validationAptId(aptId);
-
       return validationResult > ZERO.getNumber() ? SUCCESS : FAIL;
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, ERROR.value(), e);

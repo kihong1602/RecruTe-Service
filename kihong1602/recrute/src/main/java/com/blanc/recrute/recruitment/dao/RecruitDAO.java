@@ -15,50 +15,35 @@ public class RecruitDAO {
   private final Logger LOGGER = Logger.getLogger(RecruitDAO.class.getName());
 
   public DetailDTO findRctDetail(RecruitDTO recruitDTO) {
-
-    DetailDTO detailDTO;
-
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
-      detailDTO = recruitMapper.findRctDetailById(recruitDTO);
-
+      return recruitMapper.findRctDetailById(recruitDTO);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      detailDTO = null;
+      return null;
     }
-
-    return detailDTO;
   }
 
   public Integer apply(ApplyDTO applyDTO) {
-
-    Integer result;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
-
-      result = recruitMapper.saveApply(applyDTO);
+      Integer result = recruitMapper.saveApply(applyDTO);
       sqlSession.commit();
+      return result;
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      result = null;
+      return null;
     }
-
-    return result;
   }
 
   public Integer findMemberPk(String memberRealId) {
-
-    Integer id;
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       RecruitMapper recruitMapper = sqlSession.getMapper(RecruitMapper.class);
-
-      id = recruitMapper.findIdByMemberPk(memberRealId);
+      return recruitMapper.findIdByMemberPk(memberRealId);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      id = null;
+      return null;
     }
-
-    return id;
   }
 
 }

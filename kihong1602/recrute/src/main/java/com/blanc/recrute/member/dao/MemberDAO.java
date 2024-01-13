@@ -16,91 +16,62 @@ public class MemberDAO {
 
 
   public Integer idCheck(String id) {
-
-    MemberDTO memberDTO = new MemberDTO.Builder().memberId(id)
-                                                 .build();
-    Integer result;
-
+    MemberDTO memberDTO = new MemberDTO.Builder().memberId(id).build();
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
-
-      result = memberMapper.duplicateId(memberDTO);
-
+      return memberMapper.duplicateId(memberDTO);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      result = null;
+      return null;
     }
-
-    return result;
   }
 
 
   public Integer saveMember(MemberInfoDTO memberDTO) {
-    Integer result;
-
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
-
-      result = memberMapper.saveMember(memberDTO);
-
+      Integer result = memberMapper.saveMember(memberDTO);
       sqlSession.commit();
+      return result;
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      result = null;
+      return null;
     }
-
-    return result;
   }
 
 
   public LoginDTO loginRequest(LoginDTO loginDTO) {
-    LoginDTO savedLoginDto;
-
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
-
-      savedLoginDto = memberMapper.findPasswordByMemberId(loginDTO);
-
+      return memberMapper.findPasswordByMemberId(loginDTO);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      savedLoginDto = null;
+      return  null;
     }
-    return savedLoginDto;
   }
 
 
   public String findEmail(MemberDTO memberDTO) {
-    String findEmail;
-
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
-
-      findEmail = memberMapper.findEmailById(memberDTO);
-
+      return memberMapper.findEmailById(memberDTO);
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      findEmail = null;
+      return null;
     }
-
-    return findEmail;
   }
 
 
   public Integer memberAuthentication(MemberDTO memberDTO) {
-    Integer result;
-
     try (SqlSession sqlSession = MybatisConnectionFactory.getSqlSession()) {
       MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
-
-      result = memberMapper.updateMemberAuthentication(memberDTO);
-
+      Integer result = memberMapper.updateMemberAuthentication(memberDTO);
       sqlSession.commit();
+      return result;
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, Word.ERROR.value(), e);
-      result = null;
+      return null;
     }
-
-    return result;
   }
 
 }
