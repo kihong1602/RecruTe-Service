@@ -53,7 +53,6 @@ public class EmailService {
     final String CONTENT_2 = "' target='_blank'>이메일 인증 확인</a>";
 
     ExecutorService customExecutor = Executors.newFixedThreadPool(80);
-    long startTime = System.currentTimeMillis();
     List<CompletableFuture<String>> futures = new ArrayList<>();
     for (ApplicantUserInfo userInfo : applicantUserInfoList) {
       String email = userInfo.getEmail();
@@ -78,10 +77,6 @@ public class EmailService {
                                        .map(CompletableFuture::join)
                                        .filter(Objects::nonNull)
                                        .toList();
-    long endTime = System.currentTimeMillis();
-    long duration = endTime - startTime;
-    String msg = "ASync Duration: " + duration + "ms";
-    logger.info(msg);
     return failedEmails.isEmpty() ? SUCCESS.value() : String.join(", ", failedEmails);
   }
 
