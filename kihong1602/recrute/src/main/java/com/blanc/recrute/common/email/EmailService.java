@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -32,14 +31,12 @@ public class EmailService {
     String content = HEADER + CONTENT_1 + EMAIL_AUTH_URL + receiveEmail + PARAM + authKey + CONTENT_2;
     logger.info(content);
 
-    CompletableFuture<Void> emailFuture =
-        CompletableFuture.runAsync(() -> emailSender.mailSend(receiveEmail, TITLE, content));
-
-    try {
-      emailFuture.get();
-    } catch (InterruptedException | ExecutionException e) {
-      logger.log(Level.SEVERE, ERROR.value(), e);
-    }
+    CompletableFuture.runAsync(() -> emailSender.mailSend(receiveEmail, TITLE, content))
+                     .thenAccept(result -> logger.info("Email sent successfully"))
+                     .exceptionally(e -> {
+                       logger.log(Level.SEVERE, ERROR.value(), e);
+                       return null;
+                     });
   }
 
   public String sendExamAuthEmail(List<ApplicantUserInfo> applicantUserInfoList, String recruitId) {
