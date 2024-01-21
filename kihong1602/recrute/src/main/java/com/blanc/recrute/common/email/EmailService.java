@@ -51,22 +51,18 @@ public class EmailService {
 
     ExecutorService customExecutor = Executors.newFixedThreadPool(80);
     List<CompletableFuture<String>> futures = new ArrayList<>();
-    for (ApplicantUserInfo userInfo : applicantUserInfoList) {
-      String email = userInfo.getEmail();
-      String aptId = userInfo.getAptId();
 
+    applicantUserInfoList.parallelStream().forEach(info -> {
+      String email = info.getEmail();
+      String aptId = info.getAptId();
       CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
         String content =
             HEADER + CONTENT_1 + EMAIL_AUTH_URL + RECRUIT_ID + EMAIL_PARAM + email + APT_ID_PARAM + aptId + CONTENT_2;
-        if (email.equals("kihong@gmail.com")) {
-          logger.info(content);
-        }
         Word result = emailSender.mailSend(email, TITLE, content);
         return result == SUCCESS ? null : email;
-
       }, customExecutor);
       futures.add(future);
-    }
+    });
 
     customExecutor.shutdown();
 
